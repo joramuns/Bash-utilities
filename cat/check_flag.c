@@ -13,7 +13,9 @@ int check_flag(char *args, flags *a) {
         while (*args != '\0') {
             switch (*args) {
                 case 'b':
-                    a->b_flag++;
+                    if (!a->n_flag) {
+                        a->b_flag++;
+                    }
                     a->number++;
                     break;
                 case 'e':
@@ -22,6 +24,7 @@ int check_flag(char *args, flags *a) {
                     break;
                 case 'n':
                     a->n_flag++;
+                    a->b_flag = 0;
                     a->number++;
                     break;
                 case 's':

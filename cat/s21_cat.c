@@ -4,7 +4,7 @@
 //
 //  Created by Joramun Sasin on 5/11/22.
 //
-#include <stdarg.h>
+//#include <stdarg.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -13,37 +13,67 @@
 
 
 int main(int argc, char *argv[]) {
-
-    /* OUTPUT PART of commandline arguments */
-    int argc_temp = 1;
-    while (argc_temp < argc) {
-        printf("argv %d = %s\n", argc_temp, argv[argc_temp]);
-        argc_temp++;
-    }
-    /* END OF OUTPUT PART */
-    
+    printf("%", stderr);
+    /* Reading flags */
     int i = 1;
     flags cat_flags = {1, 0, 0, 0, 0, 0, 0, 0, 0};
     while (cat_flags.flag_true == 1 && i < argc) {
         check_flag(argv[i++], &cat_flags);
     }
     i--;
-    printf("number of flags: %d\n", cat_flags.number);
 
-    FILE *fp = fopen("test2.txt", "r");
-    
-    int c = 0;
-    if (fp) {
-//        while (!feof(fp)) {
-        printf("hello %p\n", fp);
-            c = fgetc(fp);
-        printf("c = %c\n", c);
-            putchar(c);
+    /* Output each file */
+    while (i < argc) {
+        output (cat_flags, argv[i]);
+        i++;
+//        if (i != argc) {
+//            putchar('\n');
 //        }
-    } else {
-        printf("Error no = %s\n", strerror(errno));
     }
-    fclose(fp);
 
     return 0;
+}
+
+void output(flags cat_flags, const char *filename) {
+    FILE *fp = fopen(filename, "r");
+
+    int c = 0, l_counter = 1, nl_counter = 0;
+    if (fp) {
+        do {
+            if ((cat_flags.n_flag || cat_flags.b_flag) && l_counter == 1) {
+                printf("     %d  ", l_counter++);
+            }
+            c = fgetc(fp);
+            while (c == '\n') {
+                c = fgetc(fp);
+                nl_counter++;
+            }
+            if (nl_counter) {
+                new_line(cat_flags, &nl_counter, &l_counter);
+            }
+            if (feof(fp)) {
+                break;
+            }
+            putchar(c);
+         } while (!feof(fp));
+    } else {
+        printf("cat: %s: %s\n", filename, strerror(errno));
+    }
+    fclose(fp);
+}
+
+void new_line(flags flags, int *counter, int *line) {
+    if (flags.s_flag && *counter > 2) {
+        *counter = 2;
+    }
+    while (*counter > 0) {
+        if (flags.e_flag) {
+            putchar('$');
+        }
+        putchar('\n');
+        if (flags.n_flag || (flags.b_flag && *counter == 1)) {
+            printf("     %d  ", (*line)++);
+        }
+        (*counter)--;
+    }
 }
