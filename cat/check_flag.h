@@ -4,9 +4,8 @@
 //
 //  Created by Joramun Sasin on 5/11/22.
 //
-
-#ifndef check_flag_h
-#define check_flag_h
+#ifndef SRC_CAT_CHECK_FLAG_H_
+#define SRC_CAT_CHECK_FLAG_H_
 
 typedef struct flags {
     int flag_true;
@@ -20,6 +19,8 @@ typedef struct flags {
     int v_flag;
 } flags;
 
-int check_flag(char *args, flags *a);
+int check_flag(char *argv[], int argc, flags *a);
+void short_flag(char *args, flags *a);
+void gnu_flag(char *args, flags *a);
 
-#endif /* check_flag_h */
+#endif  // SRC_CAT_CHECK_FLAG_H_
