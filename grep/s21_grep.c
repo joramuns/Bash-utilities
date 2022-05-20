@@ -9,6 +9,7 @@
 #include <string.h>
 #include <errno.h>
 #include "s21_grep.h"
+#include <regex.h>
 
 int main(int argc, char *argv[]) {
     if (argc > 1) {
@@ -35,9 +36,33 @@ void grep_output(flags grep_flags, const char *filename) {
     FILE *fp = fopen(filename, "r");
 
     if (fp) {
-        printf("OK\n");
+        int c = 0, len = 0;
+/* Get strings with line till the end of file */
+        while (c != -1) {
+            char *str = malloc(1 * sizeof(char));
+            c = fgetc(fp);
+            putchar(c);
+/* Get chars and relloc the size of array until \n */
+            while (c != 10 && c != -1) {
+                if (c != 10) {
+                    len++;
+                    str = realloc(str, sizeof(char) * (len + 1));
+                    str[len - 1] = (char)c;
+                    str[len] = '\0';
+                }
+                c = fgetc(fp);
+                putchar(c);
+            }
+/* Analyze the line and free it */
+            if (len > 0) {
+                printf("Line = %s\n", str);
+            }
+            free(str);
+            str = NULL;
+            len = 0;
+        }
     } else {
 /* Error output */
-        fprintf(stderr, "cat: %s: %s\n", filename, strerror(errno));
+        fprintf(stderr, "grep: %s: %s\n", filename, strerror(errno));
     }
 }
