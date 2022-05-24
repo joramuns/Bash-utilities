@@ -20,6 +20,8 @@ typedef struct flags {
     int u_flag;
     int v_flag;
     int i_flag;
+    int c_flag;
+    int l_flag;
 } flags;
 
 int check_flag(char *argv[], int argc, flags *a);

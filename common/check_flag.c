@@ -9,19 +9,25 @@
 #include <string.h>
 
 int check_flag(char *argv[], int argc, flags *a) {
-    while (a->flag_true == 1 && a->pars_pos < argc) {
-        if (*argv[a->pars_pos] == '-') {
+    while (a->flag_true > 0 && a->pars_pos < argc) {
+        char *pointer = argv[a->pars_pos];
+        if (*pointer == '-') {
             a->number++;
-            argv[a->pars_pos]++;
-            if (*argv[a->pars_pos] != '-') {
-                short_flag(argv[a->pars_pos], a);
+            pointer++;
+            if (*pointer != '-') {
+                short_flag(pointer, a);
             } else {
-                argv[a->pars_pos]++;
-                gnu_flag(argv[a->pars_pos], a);
+                pointer++;
+                gnu_flag(pointer, a);
             }
             a->pars_pos++;
         } else {
-            a->flag_true = 0;
+/* Disable flag reading if cat function with flag_true = 1 */
+            if (a->flag_true == 1) {
+                a->flag_true = 0;
+            } else {
+                a->pars_pos++;
+            }
         }
     }
 
@@ -62,6 +68,12 @@ void short_flag(char *args, flags *a) {
                 break;
             case 'i':
                 a->i_flag = 1;
+                break;
+            case 'c':
+                a->c_flag = 1;
+                break;
+            case 'l':
+                a->l_flag = 1;
                 break;
             default:
                 a->number = -1;
