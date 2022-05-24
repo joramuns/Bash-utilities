@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     if (argc > 2) {
 /* Read flags */
         flags grep_flags = {2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int i = check_flag(argv, argc, &grep_flags);
+        check_flag(argv, argc, &grep_flags);
         grep_flags.pars_pos = 1;  // temp null
 /* Prioritize flags */
 //        priorities(&grep_flags);
@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
 
 void grep_output(flags grep_flags, const char *filename, const char *pattern) {
     FILE *fp = fopen(filename, "r");
+/* Used for sensibility in pattern case */
     int reg_option = grep_flags.i_flag ? REG_ICASE : 0;
 
     if (fp) {
