@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     if (argc > 1) {
 /* Read flags */
         flags cat_flags = {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
-        int i = check_flag(argv, argc, &cat_flags);
+        check_flag(argv, argc, &cat_flags);
 /* Prioritize flags */
         priorities(&cat_flags);
 
