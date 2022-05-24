@@ -9,24 +9,23 @@
 #include <string.h>
 
 int check_flag(char *argv[], int argc, flags *a) {
-    int i = 1;
-    while (a->flag_true == 1 && i < argc) {
-        if (*argv[i] == '-') {
+    while (a->flag_true == 1 && a->pars_pos < argc) {
+        if (*argv[a->pars_pos] == '-') {
             a->number++;
-            argv[i]++;
-            if (*argv[i] != '-') {
-                short_flag(argv[i], a);
+            argv[a->pars_pos]++;
+            if (*argv[a->pars_pos] != '-') {
+                short_flag(argv[a->pars_pos], a);
             } else {
-                argv[i]++;
-                gnu_flag(argv[i], a);
+                argv[a->pars_pos]++;
+                gnu_flag(argv[a->pars_pos], a);
             }
-            i++;
+            a->pars_pos++;
         } else {
             a->flag_true = 0;
         }
     }
 
-    return i;
+    return 0;
 }
 
 void short_flag(char *args, flags *a) {
@@ -60,6 +59,9 @@ void short_flag(char *args, flags *a) {
                 break;
             case 'v':
                 a->v_flag = 1;
+                break;
+            case 'i':
+                a->i_flag = 1;
                 break;
             default:
                 a->number = -1;
