@@ -20,10 +20,10 @@ int check_flag(char *argv[], int argc, flags *a) {
                 argv[i]++;
                 gnu_flag(argv[i], a);
             }
+            i++;
         } else {
             a->flag_true = 0;
         }
-        i++;
     }
 
     return i;

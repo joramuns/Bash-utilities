@@ -19,8 +19,8 @@ int main(int argc, char *argv[]) {
         priorities(&cat_flags);
 
 /* Output each file */
-        while (i <= argc && i != cat_flags.number) {
-            cat_output(cat_flags, argv[i - 1]);
+        while (i < argc) {
+            cat_output(cat_flags, argv[i]);
             i++;
         }
 /* In case of no options called, throw error message */
