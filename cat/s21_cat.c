@@ -13,15 +13,15 @@
 int main(int argc, char *argv[]) {
     if (argc > 1) {
 /* Read flags */
-        flags cat_flags = {1, 1, 0, 0, 0, 0, 0, 0, 0};
+        flags cat_flags = {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
         int i = check_flag(argv, argc, &cat_flags);
 /* Prioritize flags */
         priorities(&cat_flags);
 
 /* Output each file */
-        while (i < argc) {
-            cat_output(cat_flags, argv[i]);
-            i++;
+        while (cat_flags.pars_pos < argc) {
+            cat_output(cat_flags, argv[cat_flags.pars_pos]);
+            cat_flags.pars_pos++;
         }
 /* In case of no options called, throw error message */
     } else {
