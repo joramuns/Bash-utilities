@@ -85,7 +85,7 @@ do
             then
               TEST1="$var $var2 $var3 $var4 $TEST_FILE"
               echo "$TEST1"
-              ./s21_cat $TEST1 > s21_cat.txt
+          	  ./s21_cat $TEST1 > s21_cat.txt
               cat $TEST1 > cat.txt
               DIFF_RES="$(diff -s s21_cat.txt cat.txt)"
               if [ "$DIFF_RES" == "Files s21_cat.txt and cat.txt are identical" ]
