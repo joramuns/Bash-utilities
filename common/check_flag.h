@@ -6,9 +6,13 @@
 //
 #ifndef SRC_CAT_CHECK_FLAG_H_
 #define SRC_CAT_CHECK_FLAG_H_
+#define EMPTY_FLAG {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 typedef struct flags {
-/* Flags 0 and 1 for strict parsing in cat, flag 2 - for grep */
+/*              Flag modes:                 */
+/* 0 and 1 for strict parsing in cat        */
+/* 2 - normal grep mode parsing             */
+/* 3 - caught -e or -f flag, seek substring */
     int flag_mode;
     int number;
     int pars_pos;
@@ -27,12 +31,14 @@ typedef struct flags {
     int o_flag;
 } flags;
 
-void init_struct(int mode);
-void check_flag(char *argv[], int argc, flags *a);
-void short_flag(char *args, flags *a);
-int common_sh_flag(char arg, flags *a);
-void cat_sh_flag(char arg, flags *a);
-void grep_sh_flag(char arg, flags *a);
-void gnu_flag(char *args, flags *a);
+void    init_struct(int mode, flags *a);
+void    check_flag(char *argv[], int argc, flags *a);
+void    short_flag(char *args, flags *a);
+int     common_sh_flag(char *arg, flags *a);
+void    cat_sh_flag(char arg, flags *a);
+void    grep_sh_flag(char arg, flags *a);
+void    gnu_flag(char *args, flags *a);
+int    valid_ef(flags *a);
+void    substring(flags *a);
 
 #endif  // SRC_CAT_CHECK_FLAG_H_

@@ -8,25 +8,22 @@
 #include "check_flag.h"
 #include <string.h>
 
-void init_struct(int mode) {
-    flags *a = NULL;
-
-    switch (mode) {
+void init_struct(int mode, flags *a) {
 /* Common flags */
-        default:
-            a->flag_mode = mode;
-            a->number = 0;
-            a->pars_pos = 1;
-            a->e_flag = 0;
-            a->n_flag = 0;
-            a->s_flag = 0;
-            a->v_flag = 0;
-        case '1':
+    a->flag_mode = mode;
+    a->number = 0;
+    a->pars_pos = 1;
+    a->e_flag = 0;
+    a->n_flag = 0;
+    a->s_flag = 0;
+    a->v_flag = 0;
+    switch (mode) {
+        case 1:
 /* Cat unique flags */
             a->b_flag = 0;
             a->t_flag = 0;
             break;
-        case '2':
+        case 2:
 /* Grep unique flags */
             a->i_flag = 0;
             a->c_flag = 0;
@@ -64,23 +61,34 @@ void check_flag(char *argv[], int argc, flags *a) {
 
 void short_flag(char *args, flags *a) {
     while (*args != '\0') {
-        if (!common_sh_flag(*args, a)) {
+        if (!common_sh_flag(args, a)) {
             if (a->flag_mode == 1) {
                 cat_sh_flag(*args, a);
             } else if (a->flag_mode == 2) {
                 grep_sh_flag(*args, a);
             }
         }
+        if (a->flag_mode == 3) {
+            
+        }
         args++;
+        if (valid_ef(a)) {
+            substring(a);
+        }
     }
 }
 
-int common_sh_flag(char arg, flags *a) {
+int common_sh_flag(char *arg, flags *a) {
     int ex_code = 1;
-    switch(arg) {
+    switch(*arg) {
         case 'e':
             a->e_flag = 1;
-            a->v_flag = 1;
+            if (a->flag_mode == 1) {
+                a->v_flag = 1;
+            } else {
+/* Caught -e flag which must stand alone, set flag mode 3 */
+                a->flag_mode = 3;
+            }
             break;
         case 'n':
             a->n_flag = 1;
@@ -136,6 +144,8 @@ void grep_sh_flag(char arg, flags *a) {
             break;
         case 'f':
             a->f_flag = 1;
+/* Caught -f flag which must stand alone, set flag mode 3 */
+            a->flag_mode = 3;
             break;
         case 'o':
             a->o_flag = 1;
@@ -157,4 +167,15 @@ void gnu_flag(char *args, flags *a) {
         a->number = -1;
         a->flag_mode = 0;
     }
+}
+
+/* Validate correctness of -e or -f flag */
+int valid_ef(flags *a) {
+    int ex_code = 0;
+
+    return ex_code;
+}
+
+void substring(flags *a) {
+
 }
