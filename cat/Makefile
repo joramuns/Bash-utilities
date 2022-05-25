@@ -24,3 +24,8 @@ gcov_report: clean
 	lcov -t "test" -o test.info -c -d . --rc lcov_branch_coverage=1
 	genhtml -o report test.info --rc lcov_branch_coverage=1
 	$(MAKE) clean
+
+debug:
+	$(CC) -g $(CFLAGS) ../common/check_flag.c
+	$(CC) -g $(CFLAGS) s21_cat.c
+	$(CC) -g $(OFLAGS) s21_cat s21_cat.o check_flag.o

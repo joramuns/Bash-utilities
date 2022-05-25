@@ -13,7 +13,8 @@
 int main(int argc, char *argv[]) {
     if (argc > 1) {
 /* Read flags */
-        flags cat_flags = {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        flags cat_flags = EMPTY_FLAG;
+        init_struct(1, &cat_flags);
         check_flag(argv, argc, &cat_flags);
 /* Prioritize flags */
         priorities(&cat_flags);
@@ -39,8 +40,8 @@ void cat_output(flags cat_flags, const char *filename) {
  l_counter - counts number of lines
  nl_counter - counts new-line characters
  */
+    int l_counter = 1, nl_counter = 0;
     if (fp) {
-        int l_counter = 1, nl_counter = 0;
         do {
             int c = fgetc(fp);
 /* First line numeration, -n or -b flag */
