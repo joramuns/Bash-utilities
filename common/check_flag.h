@@ -9,7 +9,7 @@
 
 typedef struct flags {
 /* Flags 0 and 1 for strict parsing in cat, flag 2 - for grep */
-    int flag_true;
+    int flag_mode;
     int number;
     int pars_pos;
     int b_flag;
@@ -22,10 +22,17 @@ typedef struct flags {
     int i_flag;
     int c_flag;
     int l_flag;
+    int h_flag;
+    int f_flag;
+    int o_flag;
 } flags;
 
-int check_flag(char *argv[], int argc, flags *a);
+void init_struct(int mode);
+void check_flag(char *argv[], int argc, flags *a);
 void short_flag(char *args, flags *a);
+int common_sh_flag(char arg, flags *a);
+void cat_sh_flag(char arg, flags *a);
+void grep_sh_flag(char arg, flags *a);
 void gnu_flag(char *args, flags *a);
 
 #endif  // SRC_CAT_CHECK_FLAG_H_
