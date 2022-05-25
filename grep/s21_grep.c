@@ -44,10 +44,9 @@ int main(int argc, char *argv[]) {
 
 void grep_output(flags grep_flags, const char *filename, const char *pattern) {
     FILE *fp = fopen(filename, "r");
-/* Used for sensibility in pattern case */
-    int reg_option = grep_flags.i_flag ? REG_ICASE : 0;
-
     if (fp) {
+        /* Used for sensibility in pattern case */
+        int reg_option = grep_flags.i_flag ? REG_ICASE : 0;
         regex_t regex;
         regcomp(&regex, pattern, reg_option);
         char *str = grep_getline(fp);
