@@ -107,10 +107,10 @@ int in_search(FILE *fp, regex_t *regex, flags a, const char *filename) {
                     while (!regexec(regex, newstr, 5, reg_res, 0)) {
                         regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
                         newstr += reg_res[0].rm_so;
-                        char *substring = strndup(newstr, len);
-                        printf("%s\n", substring);
-                        if (substring) {
-                            free(substring);
+                        char *substr = strndup(newstr, len);
+                        if (substr) {
+                            printf("%s\n", substr);
+                            free(substr);
                         }
                         newstr += len;
                     }
