@@ -14,8 +14,9 @@
 int main(int argc, char *argv[]) {
     if (argc > 2) {
 /* Read flags */
-        flags grep_flags = {2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        check_flag(argv, argc, &grep_flags);
+        flags grep_flags = EMPTY_FLAG;
+        init_struct(2, &grep_flags);
+        check_flag((const char **)argv, argc, &grep_flags);
         grep_flags.pars_pos = 1;  // temp null
 /* Prioritize flags */
 //        priorities(&grep_flags);
@@ -25,6 +26,7 @@ int main(int argc, char *argv[]) {
         }
         char *pattern = argv[grep_flags.pars_pos];
         grep_flags.pars_pos++;
+        num_files(argv, argc, &grep_flags);
 
 /* Output each file */
         while (grep_flags.pars_pos < argc) {
@@ -56,18 +58,25 @@ void grep_output(flags grep_flags, const char *filename, const char *pattern) {
             if (regexec(&regex, str, 0, NULL, 0) == grep_flags.v_flag) {
 /* With -n flag a number of line will be output */
                 if (!grep_flags.c_flag && !grep_flags.l_flag) {
+                    if (grep_flags.num_files && !grep_flags.h_flag) {
+                        printf("%s:", filename);
+                    }
                     if (grep_flags.n_flag) {
                         printf("%d:", line_number);
                     }
                     printf("%s\n", str);
                 }
-                    line_count++;
+/* Iterate line counter if not -l flag, otherwise - bool */
+                grep_flags.l_flag ? line_count = 1 : line_count++;
             }
             free(str);
             str = grep_getline(fp);
             line_number++;
         }
         if (grep_flags.c_flag) {
+            if (grep_flags.num_files && !grep_flags.h_flag) {
+                printf("%s:", filename);
+            }
             printf("%d\n", line_count);
         }
         if (grep_flags.l_flag && line_count > 0) {
