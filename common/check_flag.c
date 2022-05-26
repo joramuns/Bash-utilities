@@ -190,4 +190,7 @@ void num_files(char *argv[], int argc, flags *a) {
         }
         pos++;
     }
+    if (a->num_files > 0) {
+        a->num_files--;
+    }
 }
