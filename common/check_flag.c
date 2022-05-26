@@ -30,9 +30,9 @@ void init_struct(int mode, flags *a) {
             a->i_flag = 0;  // +
             a->c_flag = 0;  // +
             a->l_flag = 0;  // +
-            a->h_flag = 0;  // -
+            a->h_flag = 0;  // +
             a->f_flag = 0;  // -
-            a->o_flag = 0;  // -
+            a->o_flag = 0;  // +
             break;
     }
 }
