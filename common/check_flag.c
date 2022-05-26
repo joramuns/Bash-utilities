@@ -5,8 +5,9 @@
 //  Created by Joramun Sasin on 5/11/22.
 //
 
-#include "check_flag.h"
 #include <string.h>
+#include "check_flag.h"
+#include "nodes.h"
 
 void init_struct(int mode, flags *a) {
 /* Common flags */
@@ -172,10 +173,10 @@ void gnu_flag(char *args, flags *a) {
 /* Validate correctness of -e or -f flag */
 int valid_ef(flags *a) {
     int ex_code = 0;
-
+    a->number++;
     return ex_code;
 }
 
 void substring(flags *a) {
-
+    a->number++;
 }
