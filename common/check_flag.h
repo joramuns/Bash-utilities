@@ -32,7 +32,7 @@ typedef struct flags {
 } flags;
 
 void    init_struct(int mode, flags *a);
-void    check_flag(char *argv[], int argc, flags *a);
+void    check_flag(const char *argv[], int argc, flags *a);
 void    short_flag(char *args, flags *a);
 int     common_sh_flag(char *arg, flags *a);
 void    cat_sh_flag(char arg, flags *a);

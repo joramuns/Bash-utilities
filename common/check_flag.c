@@ -36,9 +36,9 @@ void init_struct(int mode, flags *a) {
     }
 }
 
-void check_flag(char *argv[], int argc, flags *a) {
+void check_flag(const char *argv[], int argc, flags *a) {
     while (a->flag_mode > 0 && a->pars_pos < argc) {
-        char *pointer = argv[a->pars_pos];
+        char *pointer = (char *)argv[a->pars_pos];
         if (*pointer == '-') {
             a->number++;
             pointer++;
