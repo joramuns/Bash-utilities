@@ -16,3 +16,11 @@ check_flag.o:
 
 test: s21_grep
 	./test_grep.sh
+
+gcov_report: clean
+	$(GCOV) $(CFLAGS) s21_grep.c ../common/check_flag.c
+	$(GCOV) $(OFLAGS) s21_grep s21_grep.o check_flag.o
+	./test_grep.sh
+	lcov -t "test" -o test.info -c -d . --rc lcov_branch_coverage=1
+	genhtml -o report test.info --rc lcov_branch_coverage=1
+	$(MAKE) clean
