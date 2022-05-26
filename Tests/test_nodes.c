@@ -28,49 +28,55 @@ START_TEST(nodes_push) {
 
 START_TEST(nodes_pop) {
     node *head = init_node();
-    int i = 0;
-    head->type = i;
-    while (i++ < 14) {
-        push(head)->type = i;
+    if (head) {
+        int i = 0;
+        head->type = i;
+        while (i++ < 14) {
+            push(head)->type = i;
+        }
+        node *read = NULL;
+        i = 14;
+        while (i > 0) {
+            read = find_last(head);
+            ck_assert_int_eq(i, read->type);
+            pop(head);
+            i--;
+        }
+        ck_assert_int_eq(i, head->type);
+        clean(head);
     }
-    node *read = NULL;
-    i = 14;
-    while (head && i > 0) {
-        read = find_last(head);
-        ck_assert_int_eq(i, read->type);
-        pop(head);
-        i--;
-    }
-    ck_assert_int_eq(i, head->type);
-    clean(head);
 } END_TEST
 
 START_TEST(nodes_overpop) {
     node *head = init_node();
-    int i = 9;
-    head->type = i;
-    while (i++ < 19) {
-        push(head)->type = i;
-    }
-    node *read = head;
-    while (head && i-- > 9) {
-        read = find_last(head);
-        ck_assert_int_eq(i, read->type);
+    if (head) {
+        int i = 9;
+        head->type = i;
+        while (i++ < 19) {
+            push(head)->type = i;
+        }
+        node *read = NULL;
+        while (i-- > 9) {
+            read = find_last(head);
+            ck_assert_int_eq(i, read->type);
+            pop(head);
+        }
         pop(head);
+        pop(head);
+        pop(head);
+        i = 9;
+        ck_assert_int_eq(i, head->type);
+        clean(head);
     }
-    pop(head);
-    pop(head);
-    pop(head);
-    i = 9;
-    ck_assert_int_eq(i, head->type);
-    clean(head);
 } END_TEST
 
 START_TEST(nodes_clean) {
     node *head = init_node();
-    head = clean(head);
-    clean(head);
-    ck_assert_ptr_eq(NULL, head);
+    if (head) {
+        head = clean(head);
+        clean(head);
+        ck_assert_ptr_eq(NULL, head);
+    }
 } END_TEST
 
 int main(void) {
