@@ -14,10 +14,11 @@ void init_struct(int mode, flags *a) {
     a->flag_mode = mode;
     a->number = 0;
     a->pars_pos = 1;
-    a->e_flag = 0;
-    a->n_flag = 0;
-    a->s_flag = 0;
-    a->v_flag = 0;
+    a->e_flag = 0;  // -
+    a->n_flag = 0;  // +
+    a->s_flag = 0;  // +-
+    a->v_flag = 0;  // +
+    a->num_files = 0;
     switch (mode) {
         case 1:
 /* Cat unique flags */
@@ -26,12 +27,12 @@ void init_struct(int mode, flags *a) {
             break;
         case 2:
 /* Grep unique flags */
-            a->i_flag = 0;
-            a->c_flag = 0;
-            a->l_flag = 0;
-            a->h_flag = 0;
-            a->f_flag = 0;
-            a->o_flag = 0;
+            a->i_flag = 0;  // +
+            a->c_flag = 0;  // +-
+            a->l_flag = 0;  // +
+            a->h_flag = 0;  // -
+            a->f_flag = 0;  // -
+            a->o_flag = 0;  // -
             break;
     }
 }
@@ -178,4 +179,15 @@ int valid_ef(flags *a) {
 
 void substring(flags *a) {
     a->number++;
+}
+
+void num_files(char *argv[], int argc, flags *a) {
+    int pos = a->pars_pos;
+
+    while (pos < argc) {
+        if (*argv[pos] != '-') {
+            a->num_files++;
+        }
+        pos++;
+    }
 }
