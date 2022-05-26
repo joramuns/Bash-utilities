@@ -83,6 +83,7 @@ void grep_output(flags grep_flags, const char *filename, const char *pattern) {
             printf("%s\n", filename);
         }
         regfree(&regex);
+        fclose(fp);
     } else if (!grep_flags.s_flag) {
 /* Error output excluding -s flag (suppress error message) */
         fprintf(stderr, "grep: %s: %s\n", filename, strerror(errno));
