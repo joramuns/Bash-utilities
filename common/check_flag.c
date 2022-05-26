@@ -16,7 +16,7 @@ void init_struct(int mode, flags *a) {
     a->pars_pos = 1;
     a->e_flag = 0;  // -
     a->n_flag = 0;  // +
-    a->s_flag = 0;  // +-
+    a->s_flag = 0;  // +
     a->v_flag = 0;  // +
     a->num_files = 0;
     switch (mode) {
@@ -28,7 +28,7 @@ void init_struct(int mode, flags *a) {
         case 2:
 /* Grep unique flags */
             a->i_flag = 0;  // +
-            a->c_flag = 0;  // +-
+            a->c_flag = 0;  // +
             a->l_flag = 0;  // +
             a->h_flag = 0;  // -
             a->f_flag = 0;  // -
