@@ -49,7 +49,7 @@ void grep_output(flags grep_flags, const char *filename, const char *pattern) {
         /* Used for sensibility in pattern case */
         int reg_option = grep_flags.i_flag ? REG_ICASE : 0;
         regex_t regex;
-        regcomp(&regex, pattern, reg_option);
+        regcomp(&regex, pattern,  REG_EXTENDED|reg_option);
         int line_count = in_search(fp, &regex, grep_flags, filename);
         af_search(grep_flags, filename, line_count);
         regfree(&regex);
@@ -88,10 +88,12 @@ char *grep_getline(FILE *filepointer) {
 
 int in_search(FILE *fp, regex_t *regex, flags a, const char *filename) {
     char *str = grep_getline(fp);
-    int line_number = 1, line_count = 0;;
+    int line_number = 1, line_count = 0;
+
     while (str) {
 /* Print either matched line (if no -v flag) or other than matched line */
-        if (regexec(regex, str, 0, NULL, 0) == a.v_flag) {
+        regmatch_t reg_res[5];
+        if (regexec(regex, str, 5, reg_res, 0) == a.v_flag) {
 /* With -n flag a number of line will be output */
             if (!a.c_flag && !a.l_flag) {
                 if (a.num_files && !a.h_flag) {
@@ -100,7 +102,21 @@ int in_search(FILE *fp, regex_t *regex, flags a, const char *filename) {
                 if (a.n_flag) {
                     printf("%d:", line_number);
                 }
-                printf("%s\n", str);
+                if (a.o_flag && !a.v_flag) {
+                    char *newstr = str;
+                    while (!regexec(regex, newstr, 5, reg_res, 0)) {
+                        regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
+                        newstr += reg_res[0].rm_so;
+                        char *substring = strndup(newstr, len);
+                        printf("%s\n", substring);
+                        if (substring) {
+                            free(substring);
+                        }
+                        newstr += len;
+                    }
+                } else {
+                    printf("%s\n", str);
+                }
             }
 /* Iterate line counter if not -l flag, otherwise - bool */
             a.l_flag ? line_count = 1 : line_count++;
