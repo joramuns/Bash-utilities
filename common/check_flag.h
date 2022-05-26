@@ -4,8 +4,8 @@
 //
 //  Created by Joramun Sasin on 5/11/22.
 //
-#ifndef SRC_CAT_CHECK_FLAG_H_
-#define SRC_CAT_CHECK_FLAG_H_
+#ifndef SRC_COMMON_CHECK_FLAG_H_
+#define SRC_COMMON_CHECK_FLAG_H_
 #define EMPTY_FLAG {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 typedef struct flags {
@@ -41,4 +41,4 @@ void    gnu_flag(char *args, flags *a);
 int    valid_ef(flags *a);
 void    substring(flags *a);
 
-#endif  // SRC_CAT_CHECK_FLAG_H_
+#endif  // SRC_COMMON_CHECK_FLAG_H_

@@ -70,7 +70,6 @@ void short_flag(char *args, flags *a) {
             }
         }
         if (a->flag_mode == 3) {
-            
         }
         args++;
         if (valid_ef(a)) {
@@ -81,7 +80,7 @@ void short_flag(char *args, flags *a) {
 
 int common_sh_flag(char *arg, flags *a) {
     int ex_code = 1;
-    switch(*arg) {
+    switch (*arg) {
         case 'e':
             a->e_flag = 1;
             if (a->flag_mode == 1) {
@@ -109,7 +108,7 @@ int common_sh_flag(char *arg, flags *a) {
 }
 
 void cat_sh_flag(char arg, flags *a) {
-    switch(arg) {
+    switch (arg) {
         case 'b':
             a->b_flag = 1;
             break;
@@ -130,7 +129,7 @@ void cat_sh_flag(char arg, flags *a) {
 }
 
 void grep_sh_flag(char arg, flags *a) {
-    switch(arg) {
+    switch (arg) {
         case 'i':
             a->i_flag = 1;
             break;
