@@ -6,7 +6,7 @@
 //
 #ifndef SRC_COMMON_CHECK_FLAG_H_
 #define SRC_COMMON_CHECK_FLAG_H_
-#define EMPTY_FLAG {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL}
+#define EMPTY_FLAG {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL}
 #include <stdio.h>
 
 typedef struct flags {
