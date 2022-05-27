@@ -43,7 +43,7 @@ void    gnu_flag(char *args, flags *a);
 int     valid_ef(flags *a);
 void    substring(flags *a);
 void    num_files(char *argv[], int argc, flags *a);
-void    add_pattern(char **argv, flags *grep_flags);
+void    add_pattern(char *arg, flags *grep_flags);
 char    *grep_getline(FILE *filepointer);
 
 #endif  // SRC_COMMON_CHECK_FLAG_H_

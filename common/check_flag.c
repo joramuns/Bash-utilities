@@ -15,7 +15,8 @@ void check_flag(char *argv[], int argc, flags *a) {
         char *pointer = (char *)argv[a->pars_pos];
 /*  Parser has found -e of -f flag and goes reading a string    */
         if (a->flag_mode == 3) {
-            add_pattern(argv, a);
+            add_pattern(argv[a->pars_pos], a);
+            argv[a->pars_pos][0] = '\0';
             a->flag_mode = 2;
         }
         if (a->flag_mode == 4) {
@@ -27,6 +28,7 @@ void check_flag(char *argv[], int argc, flags *a) {
 /* Error output */
                 fprintf(stderr, "grep: %s: %s\n", argv[a->pars_pos], strerror(errno));
             }
+            argv[a->pars_pos][0] = '\0';
         }
         if (*pointer == '-') {
             a->number++;
@@ -191,27 +193,23 @@ void num_files(char *argv[], int argc, flags *a) {
     }
 }
 
-void add_pattern(char **argv, flags *a) {
+void add_pattern(char *arg, flags *a) {
 /*                  Malloc pattern and destroy argument         */
     if (!a->pattern) {
-        a->pattern = (char *)malloc(sizeof(char) * (strlen(argv[a->pars_pos]) +1));
+        a->pattern = (char *)malloc(sizeof(char) * (strlen(arg) +1));
         if (a->pattern) {
-            strcpy(a->pattern, argv[a->pars_pos]);
-            argv[a->pars_pos][0] = '\0';
+            strcpy(a->pattern, arg);
         }
 /* If pattern is already existed, realloc it and do the same    */
     } else {
-        size_t pat_len = strlen(a->pattern);
-        size_t len = strlen(a->pattern) + 1;
-/* Sum two lengths, plus one null plus one separator for regex  */
-        len += pat_len + 1;
+        /* Sum two lengths, plus one null plus one separator for regex  */
+        size_t len = strlen(a->pattern) + strlen(arg) + 2;
         char *temp_line = realloc(a->pattern, sizeof(char) * (len));
-/*                     Realloc safely please!                   */
+/*                         Realloc safely please!                       */
         if (temp_line) {
             a->pattern = temp_line;
             strcat(a->pattern, "|");
-            strcat(a->pattern, argv[a->pars_pos]);
-            argv[a->pars_pos][0] = '\0';
+            strcat(a->pattern, arg);
         } else {
             free(a->pattern);
             a->pattern = NULL;

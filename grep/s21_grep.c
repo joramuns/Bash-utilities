@@ -23,7 +23,8 @@ int main(int argc, char *argv[]) {
             grep_flags.pars_pos++;
         }
         if (!grep_flags.pattern) {
-            add_pattern(argv, &grep_flags);
+            add_pattern(argv[grep_flags.pars_pos], &grep_flags);
+            argv[grep_flags.pars_pos][0] = '\0';
         }
         grep_flags.pars_pos++;
         num_files(argv, argc, &grep_flags);
