@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 /* Read flags */
         flags cat_flags = EMPTY_FLAG;
         cat_flags.flag_mode = 1;
-        check_flag((const char **)argv, argc, &cat_flags);
+        check_flag(argv, argc, &cat_flags);
 /* Prioritize flags */
         priorities(&cat_flags);
 
