@@ -20,10 +20,18 @@ void check_flag(char *argv[], int argc, flags *a) {
             a->flag_mode = 2;
         }
         if (a->flag_mode == 4) {
-            FILE *fp = fopen(argv[a->pars_pos], "r");
-            if (fp) {
- 
-                fclose(fp);
+            FILE *fpp = fopen(argv[a->pars_pos], "r");
+            if (fpp) {
+                char *fpattern = NULL;
+                while ((fpattern = grep_getline(fpp)) != NULL) {
+                    if (*fpattern != '\0') {
+                        add_pattern(fpattern, a);
+                    }
+                    free(fpattern);
+                }
+                fclose(fpp);
+                argv[a->pars_pos][0] = '\0';
+                a->flag_mode = 2;
             } else {
 /* Error output */
                 fprintf(stderr, "grep: %s: %s\n", argv[a->pars_pos], strerror(errno));
