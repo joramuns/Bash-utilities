@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include <regex.h>
 
-void grep_output(flags grep_flags, const char *filename);
-char *grep_getline(FILE *filepointer);
-int in_search(FILE *fp, regex_t *regex, flags a, const char *filename);
-void af_search(flags a, const char *filename, int line_count);
+void    grep_output(flags grep_flags, const char *filename);
+char    *grep_getline(FILE *filepointer);
+int     in_search(FILE *fp, regex_t *regex, flags a, const char *filename);
+void    af_search(flags a, const char *filename, int line_count);
 
 #endif  // SRC_GREP_S21_GREP_H_
