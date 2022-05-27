@@ -16,17 +16,13 @@ int main(int argc, char *argv[]) {
         flags grep_flags = EMPTY_FLAG;
         grep_flags.flag_mode = 2;
         check_flag(argv, argc, &grep_flags);
-        grep_flags.pars_pos = 1;  // temp null
 
 /*          Read pattern if no -e or -f flag            */
-        while (*argv[grep_flags.pars_pos] == '-' && grep_flags.pars_pos < argc) {
-            grep_flags.pars_pos++;
-        }
         if (!grep_flags.pattern) {
             add_pattern(argv[grep_flags.pars_pos], &grep_flags);
             argv[grep_flags.pars_pos][0] = '\0';
+            grep_flags.pars_pos++;
         }
-        grep_flags.pars_pos++;
         num_files(argv, argc, &grep_flags);
 
 /*                 Output each file                     */

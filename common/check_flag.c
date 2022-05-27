@@ -51,6 +51,12 @@ void check_flag(char *argv[], int argc, flags *a) {
             }
         }
     }
+/*          Set parser position to first actual argument        */
+    for (a->pars_pos = 1; a->pars_pos < argc; a->pars_pos++) {
+        if (*argv[a->pars_pos]) {
+            break;
+        }
+    }
 }
 
 /* First, read common cat and grep flags, then go to different  */
