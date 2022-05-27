@@ -33,7 +33,7 @@ typedef struct flags {
     char *pattern;
 } flags;
 
-void    check_flag(const char *argv[], int argc, flags *a);
+void    check_flag(char *argv[], int argc, flags *a);
 void    short_flag(char *args, flags *a);
 int     common_sh_flag(char *arg, flags *a);
 void    cat_sh_flag(char arg, flags *a);
@@ -41,6 +41,7 @@ void    grep_sh_flag(char arg, flags *a);
 void    gnu_flag(char *args, flags *a);
 int     valid_ef(flags *a);
 void    substring(flags *a);
-void     num_files(char *argv[], int argc, flags *a);
+void    num_files(char *argv[], int argc, flags *a);
+void    add_pattern(char **argv, flags *grep_flags);
 
 #endif  // SRC_COMMON_CHECK_FLAG_H_

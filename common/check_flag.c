@@ -7,13 +7,20 @@
 
 #include <string.h>
 #include "check_flag.h"
+#include <stdlib.h>
 
-void check_flag(const char *argv[], int argc, flags *a) {
+void check_flag(char *argv[], int argc, flags *a) {
     while (a->flag_mode > 0 && a->pars_pos < argc) {
         char *pointer = (char *)argv[a->pars_pos];
 /*  Parser has found -e of -f flag and goes reading a string    */
-        if (a->flag_mode == 3 || a->flag_mode == 4) {
+        if (a->flag_mode == 3) {
             // go to read argument
+            add_pattern(argv, a);
+            a->flag_mode = 2;
+            // next pars position
+        }
+        if (a->flag_mode == 4) {
+            // go to read filename
             // next pars position
         }
         if (*pointer == '-') {
@@ -175,5 +182,33 @@ void num_files(char *argv[], int argc, flags *a) {
     }
     if (a->num_files > 0) {
         a->num_files--;
+    }
+}
+
+void add_pattern(char **argv, flags *a) {
+/*                  Malloc pattern and destroy argument         */
+    if (!a->pattern) {
+        a->pattern = (char *)malloc(sizeof(char) * (strlen(argv[a->pars_pos]) +1));
+        if (a->pattern) {
+            strcpy(a->pattern, argv[a->pars_pos]);
+            argv[a->pars_pos][0] = '\0';
+        }
+/* If pattern is already existed, realloc it and do the same    */
+    } else {
+        size_t pat_len = strlen(a->pattern);
+        size_t len = strlen(a->pattern) + 1;
+/* Sum two lengths, plus one null plus one separator for regex  */
+        len += pat_len + 1;
+        char *temp_line = realloc(a->pattern, sizeof(char) * (len));
+/*                     Realloc safely please!                   */
+        if (temp_line) {
+            a->pattern = temp_line;
+            strcat(a->pattern, "|");
+            strcat(a->pattern, argv[a->pars_pos]);
+            argv[a->pars_pos][0] = '\0';
+        } else {
+            free(a->pattern);
+            a->pattern = NULL;
+        }
     }
 }
