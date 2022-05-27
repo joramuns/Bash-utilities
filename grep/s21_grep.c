@@ -64,32 +64,6 @@ void grep_output(flags grep_flags, const char *filename) {
     }
 }
 
-char *grep_getline(FILE *filepointer) {
-    int c = 0, len = 1;
-    char *line = calloc(len, sizeof(char));
-/* Get strings with line till the end of file */
-    while ((c = fgetc(filepointer)) != -1 && c != 10 && line) {
-/* Get chars and relloc the size of array until \n */
-        len++;
-        char *temp_line = realloc(line, sizeof(char) * (len));
-/* Realloc safely please! */
-        if (temp_line) {
-            line = temp_line;
-            line[len - 2] = (char)c;
-            line[len - 1] = '\0';
-        } else {
-            free(line);
-            line = NULL;
-        }
-    }
-/* End of file and empty line */
-    if (c == -1 && len == 1) {
-        free(line);
-        line = NULL;
-    }
-    return line;
-}
-
 int in_search(FILE *fp, regex_t *regex, flags a, const char *filename) {
     char *str = grep_getline(fp);
     int line_number = 1, line_count = 0;

@@ -8,21 +8,25 @@
 #include <string.h>
 #include "check_flag.h"
 #include <stdlib.h>
+#include <errno.h>
 
 void check_flag(char *argv[], int argc, flags *a) {
     while (a->flag_mode > 0 && a->pars_pos < argc) {
         char *pointer = (char *)argv[a->pars_pos];
 /*  Parser has found -e of -f flag and goes reading a string    */
         if (a->flag_mode == 3) {
-            // go to read argument
             add_pattern(argv, a);
-//            a->pars_pos++;
             a->flag_mode = 2;
-            // next pars position
         }
         if (a->flag_mode == 4) {
-            // go to read filename
-            // next pars position
+            FILE *fp = fopen(argv[a->pars_pos], "r");
+            if (fp) {
+ 
+                fclose(fp);
+            } else {
+/* Error output */
+                fprintf(stderr, "grep: %s: %s\n", argv[a->pars_pos], strerror(errno));
+            }
         }
         if (*pointer == '-') {
             a->number++;
@@ -136,7 +140,7 @@ void grep_sh_flag(char arg, flags *a) {
         case 'f':
             a->f_flag = 1;
 /*      Caught -f flag which must stand alone, set flag mode 3  */
-            a->flag_mode = 3;
+            a->flag_mode = 4;
             break;
         case 'o':
             a->o_flag = 1;
@@ -213,4 +217,30 @@ void add_pattern(char **argv, flags *a) {
             a->pattern = NULL;
         }
     }
+}
+
+char *grep_getline(FILE *filepointer) {
+    int c = 0, len = 1;
+    char *line = calloc(len, sizeof(char));
+/* Get strings with line till the end of file */
+    while ((c = fgetc(filepointer)) != -1 && c != 10 && line) {
+/* Get chars and relloc the size of array until \n */
+        len++;
+        char *temp_line = realloc(line, sizeof(char) * (len));
+/* Realloc safely please! */
+        if (temp_line) {
+            line = temp_line;
+            line[len - 2] = (char)c;
+            line[len - 1] = '\0';
+        } else {
+            free(line);
+            line = NULL;
+        }
+    }
+/* End of file and empty line */
+    if (c == -1 && len == 1) {
+        free(line);
+        line = NULL;
+    }
+    return line;
 }

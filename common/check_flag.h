@@ -7,6 +7,7 @@
 #ifndef SRC_COMMON_CHECK_FLAG_H_
 #define SRC_COMMON_CHECK_FLAG_H_
 #define EMPTY_FLAG {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL}
+#include <stdio.h>
 
 typedef struct flags {
 /*              Flag modes:                 */
@@ -43,5 +44,6 @@ int     valid_ef(flags *a);
 void    substring(flags *a);
 void    num_files(char *argv[], int argc, flags *a);
 void    add_pattern(char **argv, flags *grep_flags);
+char    *grep_getline(FILE *filepointer);
 
 #endif  // SRC_COMMON_CHECK_FLAG_H_
