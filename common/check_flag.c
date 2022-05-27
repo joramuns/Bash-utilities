@@ -26,6 +26,8 @@ void check_flag(char *argv[], int argc, flags *a) {
                 while ((fpattern = grep_getline(fpp)) != NULL) {
                     if (*fpattern != '\0') {
                         add_pattern(fpattern, a);
+                    } else {
+                        add_pattern(".*", a);
                     }
                     free(fpattern);
                 }
@@ -208,16 +210,20 @@ void num_files(char *argv[], int argc, flags *a) {
 }
 
 void add_pattern(char *arg, flags *a) {
+    size_t arg_len = 0;
+    if (arg) {
+        arg_len = strlen(arg);
+    }
 /*                  Malloc pattern and destroy argument         */
     if (!a->pattern) {
-        a->pattern = (char *)malloc(sizeof(char) * (strlen(arg) +1));
+        a->pattern = (char *)malloc(sizeof(char) * (arg_len + 1));
         if (a->pattern) {
             strcpy(a->pattern, arg);
         }
 /* If pattern is already existed, realloc it and do the same    */
     } else {
         /* Sum two lengths, plus one null plus one separator for regex  */
-        size_t len = strlen(a->pattern) + strlen(arg) + 2;
+        size_t len = strlen(a->pattern) + arg_len + 2;
         char *temp_line = realloc(a->pattern, sizeof(char) * (len));
 /*                         Realloc safely please!                       */
         if (temp_line) {

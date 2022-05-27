@@ -80,6 +80,9 @@ int in_search(FILE *fp, regex_t *regex, flags a, const char *filename) {
                 if (a.o_flag && !a.v_flag) {
                     char *newstr = str;
                     while (!regexec(regex, newstr, 5, reg_res, 0)) {
+                        if (reg_res[0].rm_eo == 0 && reg_res[0].rm_so == 0) {
+                            break;
+                        }
                         regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
                         newstr += reg_res[0].rm_so;
                         char *substr = strndup(newstr, len);
