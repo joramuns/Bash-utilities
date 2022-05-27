@@ -7,39 +7,15 @@
 
 #include <string.h>
 #include "check_flag.h"
-#include "nodes.h"
-
-void init_struct(int mode, flags *a) {
-/* Common flags */
-    a->flag_mode = mode;
-    a->number = 0;
-    a->pars_pos = 1;
-    a->e_flag = 0;  // -
-    a->n_flag = 0;  // +
-    a->s_flag = 0;  // +
-    a->v_flag = 0;  // +
-    a->num_files = 0;
-    switch (mode) {
-        case 1:
-/* Cat unique flags */
-            a->b_flag = 0;
-            a->t_flag = 0;
-            break;
-        case 2:
-/* Grep unique flags */
-            a->i_flag = 0;  // +
-            a->c_flag = 0;  // +
-            a->l_flag = 0;  // +
-            a->h_flag = 0;  // +
-            a->f_flag = 0;  // -
-            a->o_flag = 0;  // +
-            break;
-    }
-}
 
 void check_flag(const char *argv[], int argc, flags *a) {
     while (a->flag_mode > 0 && a->pars_pos < argc) {
         char *pointer = (char *)argv[a->pars_pos];
+/*  Parser has found -e of -f flag and goes reading a string    */
+        if (a->flag_mode == 3 || a->flag_mode == 4) {
+            // go to read argument
+            // next pars position
+        }
         if (*pointer == '-') {
             a->number++;
             pointer++;
@@ -51,7 +27,8 @@ void check_flag(const char *argv[], int argc, flags *a) {
             }
             a->pars_pos++;
         } else {
-/* Disable flag reading if cat function with flag_mode = 1 */
+/* Disable flag reading if cat function with flag_mode = 1      */
+/* In case of grep function - go to the next argument           */
             if (a->flag_mode == 1) {
                 a->flag_mode = 0;
             } else {
@@ -61,6 +38,7 @@ void check_flag(const char *argv[], int argc, flags *a) {
     }
 }
 
+/* First, read common cat and grep flags, then go to different  */
 void short_flag(char *args, flags *a) {
     while (*args != '\0') {
         if (!common_sh_flag(args, a)) {
@@ -79,6 +57,7 @@ void short_flag(char *args, flags *a) {
     }
 }
 
+/*              Reading common cat and grep flags               */
 int common_sh_flag(char *arg, flags *a) {
     int ex_code = 1;
     switch (*arg) {
@@ -87,7 +66,7 @@ int common_sh_flag(char *arg, flags *a) {
             if (a->flag_mode == 1) {
                 a->v_flag = 1;
             } else {
-/* Caught -e flag which must stand alone, set flag mode 3 */
+/* Caught -e flag which must stand alone, set flag mode 3       */
                 a->flag_mode = 3;
             }
             break;
@@ -108,6 +87,7 @@ int common_sh_flag(char *arg, flags *a) {
     return ex_code;
 }
 
+/*                Reading cat unique flags                      */
 void cat_sh_flag(char arg, flags *a) {
     switch (arg) {
         case 'b':
@@ -129,6 +109,7 @@ void cat_sh_flag(char arg, flags *a) {
     }
 }
 
+/*                  Reading grep unique flags                   */
 void grep_sh_flag(char arg, flags *a) {
     switch (arg) {
         case 'i':
@@ -145,7 +126,7 @@ void grep_sh_flag(char arg, flags *a) {
             break;
         case 'f':
             a->f_flag = 1;
-/* Caught -f flag which must stand alone, set flag mode 3 */
+/*      Caught -f flag which must stand alone, set flag mode 3  */
             a->flag_mode = 3;
             break;
         case 'o':
@@ -157,6 +138,7 @@ void grep_sh_flag(char arg, flags *a) {
     }
 }
 
+/*                      Reading long GNU flags                  */
 void gnu_flag(char *args, flags *a) {
     if (!strcmp(args, "number-nonblank")) {
         a->b_flag = 1;
@@ -170,7 +152,7 @@ void gnu_flag(char *args, flags *a) {
     }
 }
 
-/* Validate correctness of -e or -f flag */
+/*               Validate correctness of -e or -f flag          */
 int valid_ef(flags *a) {
     int ex_code = 0;
     a->number++;
@@ -181,6 +163,7 @@ void substring(flags *a) {
     a->number++;
 }
 
+/*           Counting the amount of given files to read         */
 void num_files(char *argv[], int argc, flags *a) {
     int pos = a->pars_pos;
 

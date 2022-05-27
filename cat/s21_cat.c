@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     if (argc > 1) {
 /* Read flags */
         flags cat_flags = EMPTY_FLAG;
-        init_struct(1, &cat_flags);
+        cat_flags.flag_mode = 1;
         check_flag((const char **)argv, argc, &cat_flags);
 /* Prioritize flags */
         priorities(&cat_flags);

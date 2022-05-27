@@ -6,7 +6,7 @@
 //
 #ifndef SRC_COMMON_CHECK_FLAG_H_
 #define SRC_COMMON_CHECK_FLAG_H_
-#define EMPTY_FLAG {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define EMPTY_FLAG {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL}
 
 typedef struct flags {
 /*              Flag modes:                 */
@@ -30,9 +30,9 @@ typedef struct flags {
     int f_flag;
     int o_flag;
     int num_files;
+    char *pattern;
 } flags;
 
-void    init_struct(int mode, flags *a);
 void    check_flag(const char *argv[], int argc, flags *a);
 void    short_flag(char *args, flags *a);
 int     common_sh_flag(char *arg, flags *a);

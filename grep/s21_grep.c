@@ -12,30 +12,31 @@
 
 int main(int argc, char *argv[]) {
     if (argc > 2) {
-/* Read flags */
+/*                    Read flags                        */
         flags grep_flags = EMPTY_FLAG;
-        init_struct(2, &grep_flags);
+        grep_flags.flag_mode = 2;
         check_flag((const char **)argv, argc, &grep_flags);
         grep_flags.pars_pos = 1;  // temp null
-/* Prioritize flags */
-//        priorities(&grep_flags);
-/* Read pattern */
+
+/*          Read pattern if no -e or -f flag            */
         while (*argv[grep_flags.pars_pos] == '-' && grep_flags.pars_pos < argc) {
             grep_flags.pars_pos++;
         }
-        char *pattern = argv[grep_flags.pars_pos];
+        if (!grep_flags.pattern) {
+            grep_flags.pattern = argv[grep_flags.pars_pos];
+        }
         grep_flags.pars_pos++;
         num_files(argv, argc, &grep_flags);
 
-/* Output each file */
+/*                 Output each file                     */
         while (grep_flags.pars_pos < argc) {
             if (*argv[grep_flags.pars_pos] == '-') {
                 grep_flags.pars_pos++;
             } else {
-                grep_output(grep_flags, argv[grep_flags.pars_pos++], pattern);
+                grep_output(grep_flags, argv[grep_flags.pars_pos++]);
             }
         }
-/* In case of no options called, throw error message */
+/* In case of no options called, throw error message    */
     } else {
         fprintf(stderr, "usage: s21_grep [-eivclnhsfo] [pattern] [file ...]");
     }
@@ -43,13 +44,13 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void grep_output(flags grep_flags, const char *filename, const char *pattern) {
+void grep_output(flags grep_flags, const char *filename) {
     FILE *fp = fopen(filename, "r");
     if (fp) {
         /* Used for sensibility in pattern case */
         int reg_option = grep_flags.i_flag ? REG_ICASE : 0;
         regex_t regex;
-        regcomp(&regex, pattern,  REG_EXTENDED|reg_option);
+        regcomp(&regex, grep_flags.pattern,  REG_EXTENDED|reg_option);
         int line_count = in_search(fp, &regex, grep_flags, filename);
         af_search(grep_flags, filename, line_count);
         regfree(&regex);
