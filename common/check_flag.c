@@ -16,6 +16,7 @@ void check_flag(char *argv[], int argc, flags *a) {
         if (a->flag_mode == 3) {
             // go to read argument
             add_pattern(argv, a);
+//            a->pars_pos++;
             a->flag_mode = 2;
             // next pars position
         }
@@ -32,6 +33,7 @@ void check_flag(char *argv[], int argc, flags *a) {
                 pointer++;
                 gnu_flag(pointer, a);
             }
+            argv[a->pars_pos][0] = '\0';
             a->pars_pos++;
         } else {
 /* Disable flag reading if cat function with flag_mode = 1      */
@@ -175,7 +177,7 @@ void num_files(char *argv[], int argc, flags *a) {
     int pos = a->pars_pos;
 
     while (pos < argc) {
-        if (*argv[pos] != '-') {
+        if (*argv[pos]) {
             a->num_files++;
         }
         pos++;

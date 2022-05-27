@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
 /*                 Output each file                     */
         while (grep_flags.pars_pos < argc) {
-            if (*argv[grep_flags.pars_pos] == '-') {
+            if (!*argv[grep_flags.pars_pos]) {
                 grep_flags.pars_pos++;
             } else {
                 grep_output(grep_flags, argv[grep_flags.pars_pos++]);

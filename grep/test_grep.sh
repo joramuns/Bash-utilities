@@ -40,34 +40,34 @@ do
               (( COUNTER_FAIL++ ))
           fi
           rm s21_grep.txt grep.txt
-#
-#          TEST3="-e for -e ^int s21_grep.c s21_grep.h Makefile $var $var2 $var3"
-#          echo "$TEST3"
-#          ./s21_grep $TEST3 > s21_grep.txt
-#          grep $TEST3 > grep.txt
-#          DIFF_RES="$(diff -s s21_grep.txt grep.txt)"
-#          if [ "$DIFF_RES" == "Files s21_grep.txt and grep.txt are identical" ]
-#            then
-#              (( COUNTER_SUCCESS++ ))
-#            else
-#              echo "$TEST3" >> log.txt
-#              (( COUNTER_FAIL++ ))
-#          fi
-#          rm s21_grep.txt grep.txt
-#
-#          TEST4="-e for -e ^int s21_grep.c $var $var2 $var3"
-#          echo "$TEST4"
-#          ./s21_grep $TEST4 > s21_grep.txt
-#          grep $TEST4 > grep.txt
-#          DIFF_RES="$(diff -s s21_grep.txt grep.txt)"
-#          if [ "$DIFF_RES" == "Files s21_grep.txt and grep.txt are identical" ]
-#            then
-#              (( COUNTER_SUCCESS++ ))
-#            else
-#              echo "$TEST4" >> log.txt
-#              (( COUNTER_FAIL++ ))
-#          fi
-#          rm s21_grep.txt grep.txt
+
+          TEST3="-e for -e ^int s21_grep.c s21_grep.h Makefile $var $var2 $var3"
+          echo "$TEST3"
+          ./s21_grep $TEST3 > s21_grep.txt
+          grep $TEST3 > grep.txt
+          DIFF_RES="$(diff -s s21_grep.txt grep.txt)"
+          if [ "$DIFF_RES" == "Files s21_grep.txt and grep.txt are identical" ]
+            then
+              (( COUNTER_SUCCESS++ ))
+            else
+              echo "$TEST3" >> log.txt
+              (( COUNTER_FAIL++ ))
+          fi
+          rm s21_grep.txt grep.txt
+
+          TEST4="-e for -e ^int s21_grep.c $var $var2 $var3"
+          echo "$TEST4"
+          ./s21_grep $TEST4 > s21_grep.txt
+          grep $TEST4 > grep.txt
+          DIFF_RES="$(diff -s s21_grep.txt grep.txt)"
+          if [ "$DIFF_RES" == "Files s21_grep.txt and grep.txt are identical" ]
+            then
+              (( COUNTER_SUCCESS++ ))
+            else
+              echo "$TEST4" >> log.txt
+              (( COUNTER_FAIL++ ))
+          fi
+          rm s21_grep.txt grep.txt
 #
 #          TEST5="-e regex -e ^print s21_grep.c $var $var2 $var3 -f pattern.txt"
 #          echo "$TEST5"
