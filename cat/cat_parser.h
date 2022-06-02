@@ -6,7 +6,7 @@
 //
 #ifndef SRC_CAT_CAT_PARSER_H_
 #define SRC_CAT_CAT_PARSER_H_
-#define EMPTY_FLAG {1, 1, 0, 0, 0, 0, 0, 0}
+#define EMPTY_FLAG {1, 1, 0, 0, 0, 0, 0, 0, 0}
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -23,6 +23,7 @@ typedef struct flags {
     int s_flag;
     int t_flag;
     int v_flag;
+    int is_empty;
 } flags;
 
 void    check_flag(char *argv[], int argc, flags *a);

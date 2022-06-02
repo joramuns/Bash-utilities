@@ -39,23 +39,30 @@ void cat_output(flags cat_flags, const char *filename) {
     if (fp) {
         do {
             int c = fgetc(fp);
-/* First line numeration, -n or -b flag */
+/*              Check first line if it is empty             */
+            if (c == '\n' && l_counter == 1 && cat_flags.is_empty == 0) {
+                cat_flags.is_empty = 1;
+            }
+            if (!cat_flags.n_flag && !cat_flags.b_flag) {
+                l_counter++;
+            }
+/*           First line numeration, -n or -b flag           */
             if ((cat_flags.n_flag || (cat_flags.b_flag && c != '\n')) && l_counter == 1 && c != -1) {
                 printf("%6d\t", l_counter++);
             }
-/* Cut new-line signs and count it */
+/*          Cut new-line signs and count it                 */
             while (c == '\n') {
                 c = fgetc(fp);
                 nl_counter++;
             }
 /* Output of new-line characters depends on -s, -n, -b flags */
             if (nl_counter) {
-                new_line(cat_flags, &nl_counter, &l_counter, c);
+                new_line(&cat_flags, &nl_counter, &l_counter, c);
             }
             if (feof(fp)) {
                 break;
             }
-/* Check non-readable chars in accordance with flags */
+/*  Check non-readable chars in accordance with flags       */
             if (c < 32 || c > 126) {
                 cat_np_output(cat_flags, &c);
             }
@@ -68,19 +75,24 @@ void cat_output(flags cat_flags, const char *filename) {
     }
 }
 
-void new_line(flags flags, int *counter, int *line, int c) {
+void new_line(flags *flags, int *counter, int *line, int c) {
 /* Reduce the number of empty lines in case of -s flag */
-    if (flags.s_flag && *counter > 2) {
-        *counter = 2;
+    if (flags->s_flag && *counter > 2) {
+        if (flags->is_empty == 1) {
+            *counter = 1;
+            flags->is_empty = -1;
+        } else {
+            *counter = 2;
+        }
     }
     while (*counter > 0) {
 /* -e flag outputs $ in the end of line */
-        if (flags.e_flag) {
+        if (flags->e_flag) {
             putchar('$');
         }
         putchar('\n');
 /* 6-wide block for line counter in case of -n or -b flag */
-        if (flags.n_flag || (flags.b_flag && *counter == 1)) {
+        if (flags->n_flag || (flags->b_flag && *counter == 1)) {
             if (!(c == -1 && *counter == 1)) {
                 printf("%6d\t", (*line)++);
             }
