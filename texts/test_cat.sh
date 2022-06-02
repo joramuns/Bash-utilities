@@ -103,5 +103,76 @@ do
   done
 done
 
+./s21_cat
+(( COUNTER_SUCCESS++ ))
+
+./s21_cat --abir $TEST_FILE
+(( COUNTER_SUCCESS++ ))
+
+TEST1="-j"
+echo $TEST1
+./s21_cat $TEST1 > s21_cat.txt
+cat $TEST1 > cat.txt
+DIFF_RES="$(diff -s s21_cat.txt cat.txt)"
+if [ "$DIFF_RES" == "Files s21_cat.txt and cat.txt are identical" ]
+then
+  (( COUNTER_SUCCESS++ ))
+else
+  echo "$TEST1" >> log.txt
+  (( COUNTER_FAIL++ ))
+fi
+
+TEST1="-e nofile"
+echo $TEST1
+./s21_cat $TEST1 > s21_cat.txt
+cat $TEST1 > cat.txt
+DIFF_RES="$(diff -s s21_cat.txt cat.txt)"
+if [ "$DIFF_RES" == "Files s21_cat.txt and cat.txt are identical" ]
+then
+  (( COUNTER_SUCCESS++ ))
+else
+  echo "$TEST1" >> log.txt
+  (( COUNTER_FAIL++ ))
+fi
+
+TEST1="--number-nonblank $TEST_FILE"
+echo $TEST1
+./s21_cat $TEST1 > s21_cat.txt
+cat -b $TEST_FILE > cat.txt
+DIFF_RES="$(diff -s s21_cat.txt cat.txt)"
+if [ "$DIFF_RES" == "Files s21_cat.txt and cat.txt are identical" ]
+then
+  (( COUNTER_SUCCESS++ ))
+else
+  echo "$TEST1" >> log.txt
+  (( COUNTER_FAIL++ ))
+fi
+
+TEST1="--number $TEST_FILE"
+echo $TEST1
+./s21_cat $TEST1 > s21_cat.txt
+cat -n $TEST_FILE > cat.txt
+DIFF_RES="$(diff -s s21_cat.txt cat.txt)"
+if [ "$DIFF_RES" == "Files s21_cat.txt and cat.txt are identical" ]
+then
+  (( COUNTER_SUCCESS++ ))
+else
+  echo "$TEST1" >> log.txt
+  (( COUNTER_FAIL++ ))
+fi
+
+TEST1="--squeeze-blank $TEST_FILE"
+echo $TEST1
+./s21_cat $TEST1 > s21_cat.txt
+cat -s $TEST_FILE > cat.txt
+DIFF_RES="$(diff -s s21_cat.txt cat.txt)"
+if [ "$DIFF_RES" == "Files s21_cat.txt and cat.txt are identical" ]
+then
+  (( COUNTER_SUCCESS++ ))
+else
+  echo "$TEST1" >> log.txt
+  (( COUNTER_FAIL++ ))
+fi
+
 echo "SUCCESS: $COUNTER_SUCCESS"
 echo "FAIL: $COUNTER_FAIL"
