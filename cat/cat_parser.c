@@ -4,11 +4,7 @@
 //
 //  Created by Joramun Sasin on 5/11/22.
 //
-
-#include <string.h>
 #include "cat_parser.h"
-#include <stdlib.h>
-#include <errno.h>
 
 void check_flag(char *argv[], int argc, flags *a) {
     while (a->flag_mode > 0 && a->pars_pos < argc) {
