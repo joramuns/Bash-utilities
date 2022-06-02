@@ -82,8 +82,11 @@ void search(const flags a, const char *filename, int *line_count, int line_numbe
             if (a.n_flag) {
                 printf("%d:", line_number);
             }
-            if (a.o_flag && !a.v_flag) {
-                buggy_original_grep_output(a, str);
+            if (a.o_flag == 1 && !a.v_flag) {
+                char *tok_pattern = (char *)malloc(sizeof(char) * (strlen(a.pattern) + 1));
+                strcpy(tok_pattern, a.pattern);
+                buggy_original_grep_output(tok_pattern, str, reg_option);
+                free(tok_pattern);
             } else {
                 printf("%s\n", str);
             }
@@ -106,22 +109,29 @@ void af_search(flags a, const char *filename, int line_count) {
     }
 }
 
-void buggy_original_grep_output(flags a, char *str) {
-    int reg_option = a.i_flag ? REG_ICASE : 0;
+void buggy_original_grep_output(char *patterns, char *str, int reg_option) {
     regex_t regex;
-    regcomp(&regex, a.pattern,  REG_EXTENDED|reg_option);
     regmatch_t reg_res[1];
-    while (!regexec(&regex, str, 1, reg_res, 0)) {
-        if (reg_res[0].rm_eo == 0 && reg_res[0].rm_so == 0) {
-            break;
+    patterns = strtok(patterns, "|");
+    while (patterns) {
+        reg_res[0].rm_eo = 0;
+        reg_res[0].rm_so = 0;
+        regcomp(&regex, patterns,  REG_EXTENDED|reg_option);
+        while (!regexec(&regex, str, 1, reg_res, 0)) {
+            if (reg_res[0].rm_eo == 0 && reg_res[0].rm_so == 0) {
+                break;
+            }
+            regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
+            str += reg_res[0].rm_so;
+            char *substr = strndup(str, len);
+            if (substr) {
+                printf("%s\n", substr);
+                free(substr);
+            }
+            str += len;
         }
-        regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
-        str += reg_res[0].rm_so;
-        char *substr = strndup(str, len);
-        if (substr) {
-            printf("%s\n", substr);
-            free(substr);
-        }
-        str += len;
+        str -= reg_res[0].rm_eo - reg_res[0].rm_so;
+        regfree(&regex);
+        patterns = strtok(NULL, "|");
     }
 }

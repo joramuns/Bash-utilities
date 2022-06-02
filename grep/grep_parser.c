@@ -76,7 +76,9 @@ void grep_sh_flag(char arg, flags *a) {
             a->f_flag = 1;
             break;
         case 'o':
-            a->o_flag = 1;
+            if (a->o_flag != -1) {
+                a->o_flag = 1;
+            }
             break;
         default:
             a->flag_mode = -1;
@@ -172,6 +174,7 @@ void get_patterns(flags *a, char *pattern_filename) {
             if (*fpattern != '\0') {
                 add_pattern(fpattern, a);
             } else {
+                a->o_flag = -1;
                 add_pattern(".*", a);
             }
             free(fpattern);
