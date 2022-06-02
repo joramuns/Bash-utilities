@@ -123,8 +123,9 @@ void buggy_original_grep_output(char *patterns, char *str, int reg_option) {
             }
             regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
             str += reg_res[0].rm_so;
-            char *substr = strndup(str, len);
+            char *substr = (char *)malloc(sizeof(char) * (len + 1));
             if (substr) {
+                strncpy(substr, str, len);
                 printf("%s\n", substr);
                 free(substr);
             }
