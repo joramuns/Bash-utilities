@@ -6,25 +6,15 @@ OFLAGS=-std=c11 -Wall -Werror -Wextra -o
 clean:
 	rm -rf *.o *.so *.gcda *.a *.gcno *.info ./cat/s21_cat ./grep/s21_grep
 
-s21_cat: cat_parser.o
-	$(CC) $(CFLAGS) ./cat/s21_cat.c
-	$(CC) $(OFLAGS) ./cat/s21_cat s21_cat.o cat_parser.o
-	$(MAKE) clean
+s21_cat:
+	make -C cat/ s21_cat
 
-cat_parser.o:
-	$(CC) $(CFLAGS) ./cat/cat_parser.c
+s21_grep:
+	make -C grep/ s21_grep
 
-s21_grep: grep_parser.o
-	$(CC) $(CFLAGS) ./grep/s21_grep.c
-	$(CC) $(OFLAGS) ./grep/s21_grep s21_grep.o grep_parser.o
-	$(MAKE) clean
-
-grep_parser.o:
-	$(CC) $(CFLAGS) ./grep/grep_parser.c
-
-test: s21_grep
-	./grep/test_grep.sh
-	./cat/test_cat.sh
+test:
+	make -C grep/ test
+	make -C cat/ test
 
 gcov_report: clean
 	$(GCOV) $(CFLAGS) ./grep/s21_grep.c ./grep/grep_parser.c
