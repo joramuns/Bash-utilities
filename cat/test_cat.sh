@@ -183,6 +183,7 @@ else
   echo "$TEST1" >> log.txt
   (( COUNTER_FAIL++ ))
 fi
+rm s21_cat.txt cat.txt
 
 echo "SUCCESS: $COUNTER_SUCCESS"
 echo "FAIL: $COUNTER_FAIL"
