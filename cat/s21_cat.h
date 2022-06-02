@@ -6,7 +6,7 @@
 //
 #ifndef SRC_CAT_S21_CAT_H_
 #define SRC_CAT_S21_CAT_H_
-#include "../common/check_flag.h"
+#include "cat_parser.h"
 
 void cat_output(flags cat_flags, const char *filename);
 void new_line(flags cat_flags, int *counter, int *line, int c);

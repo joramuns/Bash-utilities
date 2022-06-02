@@ -4,23 +4,18 @@
 //
 //  Created by Joramun Sasin on 5/11/22.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
 #include "s21_cat.h"
 
 int main(int argc, char *argv[]) {
     if (argc > 1) {
 /* Read flags */
         flags cat_flags = EMPTY_FLAG;
-        cat_flags.flag_mode = 1;
         check_flag(argv, argc, &cat_flags);
 /* Prioritize flags */
         priorities(&cat_flags);
 
 /* Output each file */
-        while (cat_flags.pars_pos < argc) {
+        while (cat_flags.pars_pos < argc && cat_flags.flag_mode >= 0) {
             cat_output(cat_flags, argv[cat_flags.pars_pos]);
             cat_flags.pars_pos++;
         }
@@ -121,5 +116,8 @@ void priorities(flags *flags) {
 /* -b flag > -n flag */
     if (flags->b_flag) {
         flags->n_flag = 0;
+    }
+    if (flags->flag_mode < 0) {
+        fprintf(stderr, "usage: s21_cat [-benstuv] [file ...]");
     }
 }
