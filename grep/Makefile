@@ -4,7 +4,7 @@ CFLAGS=-std=c11 -Wall -Werror -Wextra -c
 OFLAGS=-std=c11 -Wall -Werror -Wextra -o
 
 clean:
-	rm -rf *.o *.so *.gcda *.a *.gcno *.info test sanit
+	rm -rf *.o *.so *.gcda *.a *.gcno *.info test
 
 s21_grep: grep_parser.o
 	$(CC) $(CFLAGS) s21_grep.c
