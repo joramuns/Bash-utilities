@@ -7,9 +7,12 @@
 
 #ifndef SRC_GREP_S21_GREP_H_
 #define SRC_GREP_S21_GREP_H_
-#include "../common/check_flag.h"
+#include "grep_parser.h"
 #include <stdio.h>
 #include <regex.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 void    grep_output(flags grep_flags, const char *filename);
 int     in_search(FILE *fp, flags a, const char *filename);

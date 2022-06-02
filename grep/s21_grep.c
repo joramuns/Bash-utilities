@@ -4,17 +4,13 @@
 //
 //  Created by Joramun Sasin on 5/20/22.
 //
-
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
 #include "s21_grep.h"
 
 int main(int argc, char *argv[]) {
     if (argc > 2) {
 /*                    Read flags                        */
         flags grep_flags = EMPTY_FLAG;
-        grep_flags.flag_mode = 2;
+//        grep_flags.node = init_node();
         check_flag(argv, argc, &grep_flags);
 
 /*          Read pattern if no -e or -f flag            */
@@ -23,6 +19,7 @@ int main(int argc, char *argv[]) {
             argv[grep_flags.pars_pos][0] = '\0';
             grep_flags.pars_pos++;
         }
+/*          Count number of files                       */
         num_files(argv, argc, &grep_flags);
 
 /*                 Output each file                     */

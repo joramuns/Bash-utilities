@@ -5,11 +5,11 @@ COUNTER_FAIL=0
 DIFF_RES=""
 echo "" > log.txt
 
-for var in -v -c -l -n -h -s -o #-i
+for var in -v -c -l -n -h -s -o -i
 do
-  for var2 in -v -c -l -n -h -s -o #-i
+  for var2 in -v -c -l -n -h -s -o -i
   do
-      for var3 in -v -c -l -n -h -s -o #-i
+      for var3 in -v -c -l -n -h -s -o -i
       do
         if [ $var != $var2 ] && [ $var2 != $var3 ] && [ $var != $var3 ]
         then
