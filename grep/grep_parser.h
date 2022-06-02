@@ -44,5 +44,6 @@ void    grep_sh_flag(char arg, flags *a);
 void    num_files(char *argv[], int argc, flags *a);
 void    add_pattern(char *arg, flags *grep_flags);
 char    *grep_getline(FILE *filepointer);
+void    get_patterns(flags *a, char *pattern_filename);
 
 #endif  // SRC_GREP_GREP_PARSER_H_

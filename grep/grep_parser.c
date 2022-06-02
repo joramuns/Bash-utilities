@@ -11,30 +11,14 @@ void check_flag(char *argv[], int argc, flags *a) {
         char *pointer = (char *)argv[a->pars_pos];
 /*  Parser has found -e of -f flag and goes reading a string    */
         if (a->e_flag) {
-            add_pattern(argv[a->pars_pos], a);
-            argv[a->pars_pos][0] = '\0';
+            add_pattern(pointer, a);
+            pointer[0] = '\0';
             a->e_flag = 0;
         }
         if (a->f_flag) {
-            FILE *fpp = fopen(argv[a->pars_pos], "r");
-            if (fpp) {
-                char *fpattern = NULL;
-                while ((fpattern = grep_getline(fpp)) != NULL) {
-                    if (*fpattern != '\0') {
-                        add_pattern(fpattern, a);
-                    } else {
-                        add_pattern(".*", a);
-                    }
-                    free(fpattern);
-                }
-                fclose(fpp);
-                argv[a->pars_pos][0] = '\0';
-                a->f_flag = 0;
-            } else {
-/* Error output */
-                fprintf(stderr, "grep: %s: %s\n", argv[a->pars_pos], strerror(errno));
-            }
-            argv[a->pars_pos][0] = '\0';
+            get_patterns(a, pointer);
+            pointer[0] = '\0';
+            a->f_flag = 0;
         }
         if (*pointer == '-') {
             pointer++;
@@ -178,4 +162,23 @@ char *grep_getline(FILE *filepointer) {
         line = NULL;
     }
     return line;
+}
+
+void get_patterns(flags *a, char *pattern_filename) {
+    FILE *fpp = fopen(pattern_filename, "r");
+    if (fpp) {
+        char *fpattern = NULL;
+        while ((fpattern = grep_getline(fpp)) != NULL) {
+            if (*fpattern != '\0') {
+                add_pattern(fpattern, a);
+            } else {
+                add_pattern(".*", a);
+            }
+            free(fpattern);
+        }
+        fclose(fpp);
+    } else {
+        /* Error output */
+        fprintf(stderr, "grep: %s: %s\n", pattern_filename, strerror(errno));
+    }
 }

@@ -73,8 +73,7 @@ void search(const flags a, const char *filename, int *line_count, int line_numbe
     regex_t regex;
     regcomp(&regex, a.pattern,  REG_EXTENDED|reg_option);
     /* Print either matched line (if no -v flag) or other than matched line */
-    regmatch_t reg_res[5];
-    if (regexec(&regex, str, 5, reg_res, 0) == a.v_flag) {
+    if (regexec(&regex, str, 0, NULL, 0) == a.v_flag) {
         /* With -n flag a number of line will be output */
         if (!a.c_flag && !a.l_flag) {
             if (a.num_files && !a.h_flag) {
@@ -84,20 +83,7 @@ void search(const flags a, const char *filename, int *line_count, int line_numbe
                 printf("%d:", line_number);
             }
             if (a.o_flag && !a.v_flag) {
-                char *newstr = str;
-                while (!regexec(&regex, newstr, 5, reg_res, 0)) {
-                    if (reg_res[0].rm_eo == 0 && reg_res[0].rm_so == 0) {
-                        break;
-                    }
-                    regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
-                    newstr += reg_res[0].rm_so;
-                    char *substr = strndup(newstr, len);
-                    if (substr) {
-                        printf("%s\n", substr);
-                        free(substr);
-                    }
-                    newstr += len;
-                }
+                buggy_original_grep_output(a, str);
             } else {
                 printf("%s\n", str);
             }
@@ -117,5 +103,25 @@ void af_search(flags a, const char *filename, int line_count) {
     }
     if (a.l_flag && line_count > 0) {
         printf("%s\n", filename);
+    }
+}
+
+void buggy_original_grep_output(flags a, char *str) {
+    int reg_option = a.i_flag ? REG_ICASE : 0;
+    regex_t regex;
+    regcomp(&regex, a.pattern,  REG_EXTENDED|reg_option);
+    regmatch_t reg_res[1];
+    while (!regexec(&regex, str, 1, reg_res, 0)) {
+        if (reg_res[0].rm_eo == 0 && reg_res[0].rm_so == 0) {
+            break;
+        }
+        regoff_t len = reg_res[0].rm_eo - reg_res[0].rm_so;
+        str += reg_res[0].rm_so;
+        char *substr = strndup(str, len);
+        if (substr) {
+            printf("%s\n", substr);
+            free(substr);
+        }
+        str += len;
     }
 }
