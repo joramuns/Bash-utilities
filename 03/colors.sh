@@ -1,3 +1,5 @@
+#!/bin/bash
+
 off_color="\033[0m"
 fg_white="\033[97m"
 fg_red="\033[31m"
