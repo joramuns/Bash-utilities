@@ -9,13 +9,16 @@ total_num_files=$(sudo find $1 -type f | wc -l)
 #
 #
 #
-top10_files=
+#
+#top10_files=
+#
 
 echo "Total number of folders (including all nested ones) = $total_num_folders"
 echo "TOP 5 folders of maximum size arranged in descending order (path and size):"
 echo "$top5_folders"
 echo "Total number of files = $total_num_files"
 echo "Number of:"
+echo "Configuration files (with the .conf extension) = "
 echo "Text files = "
 echo "Executable files = "
 echo "Log files (with the extension .log) = "
@@ -26,8 +29,9 @@ echo "Symbolic links = "
 #
 #
 #
+#
 echo "TOP 10 files of maximum size arranged in descending order (path, size and type):"
-echo "$top10_files"
+#echo "$top10_files"
 echo "TOP 10 executable files of the maximum size arranged in descending order (path, size and MD5 hash of file)"
 #
 
