@@ -6,7 +6,7 @@ if [[ 1 -le $column1_background && $column1_background -le 6 ]]
 then
 	out1=$column1_background
 else
-	out1=7
+	out1=8
 fi
 if [[ 1 -le $column1_font_color && $column1_font_color -le 6 ]]
 then
@@ -18,7 +18,7 @@ if [[ 1 -le $column2_background && $column2_background -le 6 ]]
 then
 	out3=$column2_background
 else
-	out3=7
+	out3=8
 fi
 if [[ 1 -le $column2_font_color && $column2_font_color -le 6 ]]
 then
@@ -26,4 +26,8 @@ then
 else
 	out4=7
 fi
+if [[ $# -ne 0 ]]; then
+	echo "No arguments please!"
+else
 	source colored_output.sh
+fi

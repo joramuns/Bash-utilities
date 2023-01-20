@@ -33,7 +33,7 @@ then
 else
 	numcolor4=$out4
 fi
-echo "Column 1 background = $numcolor1 (${word_array[$out1]})"
-echo "Column 1 font color = $numcolor2 (${word_array[$out2]})"
-echo "Column 2 background = $numcolor3 (${word_array[$out3]})"
-echo "Column 2 font color = $numcolor4 (${word_array[$out4]})"
+echo "Column 1 background = ${word_array[$out1]}"
+echo "Column 1 font color = ${word_array[$out2]}"
+echo "Column 2 background = ${word_array[$out3]}"
+echo "Column 2 font color = ${word_array[$out4]}"
