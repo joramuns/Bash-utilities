@@ -25,7 +25,7 @@ fg_array[6]=$fg_black
 declare -A bg_array
 bg_array[1]=$bg_white
 bg_array[2]=$bg_red
-bg_array[3]=$fg_green
+bg_array[3]=$bg_green
 bg_array[4]=$bg_blue
 bg_array[5]=$bg_purple
 bg_array[6]=$bg_black
