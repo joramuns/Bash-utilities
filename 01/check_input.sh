@@ -48,5 +48,3 @@ else
 	echo "6: Wrong filesize (1-100kb)"
 fi
 
-
-echo $check_counter
