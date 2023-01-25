@@ -12,12 +12,12 @@ source generate.sh
 
 space_avail=$(df / | tail -1 | awk '{print $4}')
 
-if [[ $# -ne 6 ]]; then
-	echo "Not enough arguments!"
-    exit 1
-else
+# if [[ $# -ne 6 ]]; then
+# 	echo "Not enough arguments!"
+#     exit 1
+# else
 	source check_input.sh
-fi
+# fi
 
 if [[ $check_counter -ne 6 ]]; then
     exit 1
