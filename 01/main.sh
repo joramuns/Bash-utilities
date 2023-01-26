@@ -8,7 +8,8 @@
 # 6 File size
 
 source create.sh
-source generate.sh
+source generate_file.sh
+source generate_folder.sh
 
 space_avail=$(df / | tail -1 | awk '{print $4}')
 
@@ -23,9 +24,14 @@ if [[ $check_counter -ne 6 ]]; then
     exit 1
 fi
 
-file_init_pattern $5
-for i in {1..99999}
+folder_init_pattern $3
+for (( m=0; m<$2; m++ ))
 do
-    generate_filename
+    generate_folder
+    file_init_pattern $5
+    for (( p=0; p<$4; p++ ))
+    do
+        generate_filename
+        echo $foldername/$filename
+    done
 done
-
