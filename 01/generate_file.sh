@@ -6,6 +6,7 @@ MAXLENGTH=254
 function file_init_pattern () {
     file_pattern=$(echo $1 | awk -F "." '{print $1}')
     file_extension=$(echo $1 | awk -F "." '{print $2}')
+    (( MAXLENGTH-=${#file_extension} ))
     pattern_counter=()
     (( pattern_len=${#file_pattern} - 1))
     for (( i=0; i<=$pattern_len; i++ ))
@@ -24,23 +25,22 @@ function generate_filename () {
             filename+=${file_pattern:$i:1}
         done
     done
-    echo $filename
-    get_count
+    filename+=.$file_extension
+    get_count_file
 }
 
-function get_count () {
+function get_count_file () {
     ((pattern_counter[0]+=1))
     for (( n=0; n<=$pattern_len; n++ ))
     do
         check_arr_sum=$(IFS=+; echo "$((${pattern_counter[*]}))")
         if [[ ${pattern_counter[$n]} -ge 254 || $check_arr_sum -gt $MAXLENGTH ]]; then
             if [[ $n -eq $pattern_len ]]; then
-                echo "HOBA"
+                echo "No more filename combinations with this pattern"
                 exit 1
             fi
             (( pattern_counter[n]=1 ))
             (( pattern_counter[n+1]+=1 ))
         fi
     done
-    # echo ${pattern_counter[@]}
 }
