@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Temp define, folders and files should have different sizes and be defined separately
-MAXLENGTH_FOLDER=254
+MAXLENGTH_FOLDER=247
+date_format=$(date +%d%m%y)
 
 function folder_init_pattern () {
     folder_pattern=$1
@@ -23,6 +24,7 @@ function generate_folder () {
             foldername+=${folder_pattern:$i:1}
         done
     done
+    foldername+=_$date_format
     get_count_folder
 }
 
@@ -36,8 +38,17 @@ function get_count_folder () {
                 echo "No more folder combinations with this pattern"
                 exit 1
             fi
+            antiplagiat=1
+            while [ ${folder_pattern:$n:1} = ${folder_pattern:$n+$antiplagiat:1} ]
+            do
+                (( antiplagiat+=1 ))
+                if [[ $n+$antiplagiat -gt $folder_pattern_len ]]; then
+                    echo "No more folder combinations due to repeating letters"
+                    exit 1
+                fi
+            done
             (( folder_pattern_counter[n]=1 ))
-            (( folder_pattern_counter[n+1]+=1 ))
+            (( folder_pattern_counter[n+antiplagiat]+=1 ))
         fi
     done
 }
