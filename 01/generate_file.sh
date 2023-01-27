@@ -5,7 +5,7 @@
 function file_init_pattern () {
     file_pattern=$(echo $1 | awk -F "." '{print $1}')
     file_extension=$(echo $1 | awk -F "." '{print $2}')
-    MAXLENGTH=254
+    MAXLENGTH=247
     (( MAXLENGTH-=${#file_extension} ))
     pattern_counter=()
     (( pattern_len=${#file_pattern} - 1))
@@ -25,7 +25,13 @@ function generate_filename () {
             filename+=${file_pattern:$i:1}
         done
     done
-    filename+=.$file_extension
+    if [[ ${#filename} -lt 4 ]]; then
+        get_count_file
+        generate_filename
+    else
+        filename+=_$date_format
+        filename+=.$file_extension
+    fi
     get_count_file
 }
 
@@ -44,12 +50,12 @@ function get_count_file () {
             do
                 (( antiplagiat+=1 ))
                 if [[ $n+$antiplagiat -gt $pattern_len ]]; then
-                    echo "No more file combinations due to repeating letters"
+                    echo "No more filename combinations due to repeating letters"
                     exit 1
                 fi
             done
             (( pattern_counter[n]=1 ))
-            (( pattern_counter[n+1]+=1 ))
+            (( pattern_counter[n+antiplagiat]+=1 ))
         fi
     done
 }

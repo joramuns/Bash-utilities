@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Temp define, folders and files should have different sizes and be defined separately
-MAXLENGTH_FOLDER=247
+MAXLENGTH_FOLDER=248
 date_format=$(date +%d%m%y)
 
 function folder_init_pattern () {
@@ -24,7 +24,12 @@ function generate_folder () {
             foldername+=${folder_pattern:$i:1}
         done
     done
-    foldername+=_$date_format
+    if [[ ${#foldername} -lt 4 ]]; then
+        get_count_folder
+        generate_folder
+    else
+        foldername+=_$date_format
+    fi
     get_count_folder
 }
 
@@ -33,7 +38,7 @@ function get_count_folder () {
     for (( n=0; n<=$folder_pattern_len; n++ ))
     do
         folder_check_arr_sum=$(IFS=+; echo "$((${folder_pattern_counter[*]}))")
-        if [[ ${folder_pattern_counter[$n]} -ge 254 || $folder_check_arr_sum -gt $MAXLENGTH_FOLDER ]]; then
+        if [[ ${folder_pattern_counter[$n]} -gt 254 || $folder_check_arr_sum -gt $MAXLENGTH_FOLDER ]]; then
             if [[ $n -eq $folder_pattern_len ]]; then
                 echo "No more folder combinations with this pattern"
                 exit 1
