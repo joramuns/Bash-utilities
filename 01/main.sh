@@ -28,10 +28,11 @@ folder_init_pattern $3
 for (( m=0; m<$2; m++ ))
 do
     generate_folder
+    mkdir -p $1/$foldername
     file_init_pattern $5
     for (( p=0; p<$4; p++ ))
     do
         generate_filename
-        echo $foldername/$filename
+        fallocate $1$foldername/$filename -l $6
     done
 done
