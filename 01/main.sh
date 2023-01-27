@@ -33,6 +33,7 @@ do
     for (( p=0; p<$4; p++ ))
     do
         generate_filename
+        space_left=$(df -h / | tail -1 | awk '{print $4}')
         fallocate $1$foldername/$filename -l $6
     done
 done
