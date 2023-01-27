@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Temp define, folders and files should have different sizes and be defined separately
-MAXLENGTH=254
 
 function file_init_pattern () {
     file_pattern=$(echo $1 | awk -F "." '{print $1}')
     file_extension=$(echo $1 | awk -F "." '{print $2}')
+    MAXLENGTH=254
     (( MAXLENGTH-=${#file_extension} ))
     pattern_counter=()
     (( pattern_len=${#file_pattern} - 1))
@@ -34,11 +34,20 @@ function get_count_file () {
     for (( n=0; n<=$pattern_len; n++ ))
     do
         check_arr_sum=$(IFS=+; echo "$((${pattern_counter[*]}))")
-        if [[ ${pattern_counter[$n]} -ge 254 || $check_arr_sum -gt $MAXLENGTH ]]; then
+        if [[ ${pattern_counter[$n]} -gt 254 || $check_arr_sum -gt $MAXLENGTH ]]; then
             if [[ $n -eq $pattern_len ]]; then
                 echo "No more filename combinations with this pattern"
                 exit 1
             fi
+            antiplagiat=1
+            while [ ${file_pattern:$n:1} = ${file_pattern:$n+$antiplagiat:1} ]
+            do
+                (( antiplagiat+=1 ))
+                if [[ $n+$antiplagiat -gt $pattern_len ]]; then
+                    echo "No more file combinations due to repeating letters"
+                    exit 1
+                fi
+            done
             (( pattern_counter[n]=1 ))
             (( pattern_counter[n+1]+=1 ))
         fi
