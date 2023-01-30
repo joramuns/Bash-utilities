@@ -33,7 +33,7 @@ else
 fi
 
 # 5 Filename pattern
-re='^[a-zA-Z]{1,7}.[a-zA-Z]{1,3}$'
+re='^[a-zA-Z]{1,7}[.]{1}[a-zA-Z]{1,3}$'
 if [[ $5 =~ $re ]]; then
 	check_counter=$((check_counter+1))
 else
