@@ -33,7 +33,11 @@ do
     for (( p=0; p<$4; p++ ))
     do
         generate_filename
-        space_left=$(df -h / | tail -1 | awk '{print $4}')
         fallocate $1$foldername/$filename -l $6
+        space_left=$(df -m / | tail -1 | awk '{print $4}')
+        if (( space_left < 1024 )); then
+            echo "Less than 1GB of free space remaining!"
+            exit 99
+        fi
     done
 done
