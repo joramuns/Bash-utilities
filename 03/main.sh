@@ -11,5 +11,8 @@ if [[ $# -eq 1 ]]; then
     elif [[ $1 -eq 2 ]]; then
         echo 3
     fi
+else
+    echo "No option selected!"
+    exit 99
 fi
 
