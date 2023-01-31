@@ -8,8 +8,12 @@ if [[ $# -eq 1 ]]; then
         log_clean_opt
     elif [[ $1 -eq 2 ]]; then
         echo 2
-    elif [[ $1 -eq 2 ]]; then
-        echo 3
+    elif [[ $1 -eq 3 ]]; then
+        source generate_folder.sh
+        mask_file_opt
+    else
+        echo "Wrong option selected!"
+        exit 98
     fi
 else
     echo "No option selected!"
