@@ -31,8 +31,8 @@ function generate_filename () {
     else
         filename+=_$date_format
         filename+=.$file_extension
+        get_count_file
     fi
-    get_count_file
 }
 
 function get_count_file () {

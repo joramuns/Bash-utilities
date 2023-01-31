@@ -29,8 +29,8 @@ function generate_folder () {
         generate_folder
     else
         foldername+=_$date_format
+        get_count_folder
     fi
-    get_count_folder
 }
 
 function get_count_folder () {
