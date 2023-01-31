@@ -6,6 +6,7 @@ function start_create () {
     do
         generate_folder
         mkdir -p $1/$foldername
+        echo "$(realpath $1/$foldername) $(date +%d.%m.%y)" >> log.txt
         file_init_pattern $5
         for (( p=0; p<$4; p++ ))
         do
