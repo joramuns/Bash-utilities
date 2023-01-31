@@ -27,5 +27,8 @@ function start_create () {
 }
 
 function get_path () {
-    path_21=$(find ~ -type d | shuf -n 1)
+    path_21=$(find ~ -type d | grep -e "bin" -e "sbin" -v | shuf -n 1)
+    if ! [ -w $path_21 ]; then
+        get_path
+    fi
 }
