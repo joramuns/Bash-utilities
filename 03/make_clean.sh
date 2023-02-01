@@ -6,10 +6,6 @@ function log_clean () {
 }
 
 function date_clean () {
-    startdate=$(date -d "$1" +%s)
-    enddate=$(date -d "$2" +%s)
-    check_period $startdate $enddate
-    echo "Cleaning by date period in process!"
     find ~ -type d | awk \
     -v startdate="$startdate" \
     -v enddate="$enddate" \
