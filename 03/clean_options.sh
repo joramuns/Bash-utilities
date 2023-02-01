@@ -11,7 +11,15 @@ function log_clean_opt () {
 }
 
 function date_time_opt () {
-    echo "Not implemented"
+    read -p "Enter start date (example 12-JAN-2023 11:21): " startdate
+    check_date "$startdate"
+    startdate=$(date -d "$startdate" +%s)
+    read -p "Enter end date (example 12-JAN-2023 11:21): " enddate
+    check_date "$enddate"
+    enddate=$(date -d "$enddate" +%s)
+    check_period $startdate $enddate
+    echo $startdate $enddate
+    date_clean $startdate $enddate
 }
 
 function mask_file_opt () {

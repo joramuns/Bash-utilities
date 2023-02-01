@@ -7,7 +7,8 @@ if [[ $# -eq 1 ]]; then
     if [[ $1 -eq 1 ]]; then
         log_clean_opt
     elif [[ $1 -eq 2 ]]; then
-        echo 2
+        source get_date.sh
+        date_time_opt
     elif [[ $1 -eq 3 ]]; then
         source generate_folder.sh
         mask_file_opt
