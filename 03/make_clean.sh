@@ -12,8 +12,8 @@ function date_clean () {
     '{
         cmd = "./statx " $1
         cmd | getline birthdate
-        if (enddate > birthdate && birthdate > startdate) {
-            print $1
+        if (enddate > birthdate && birthdate > startdate && $1 ~ /[_]{1}[0-9]{6}$/) {
+            system("rm -rf " $1)
         }
         close(cmd)
     }'
