@@ -6,7 +6,7 @@ function get_line () {
     echo -n "$(get_ip) "
     echo -n "- "
     echo -n "- "
-    echo -n "[$(clf_date $rand_time)] "
+    echo -n "[$(clf_date ${sorted_datetime_array[$m_i]})] "
     echo -n "\"$(get_method)\" "
     echo -n "$(get_response) "
     echo -n "$(get_random 1 5000) "
