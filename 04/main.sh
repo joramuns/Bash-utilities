@@ -3,7 +3,7 @@
 source line.sh
 source time.sh
 
-num_lines=100
+num_lines=10
 rand_day=$(get_day)
 datetime_array=()
 
@@ -13,7 +13,10 @@ do
     datetime_array+=($rand_time)
 done
 
-sorted_datetime_array=$(printf "%s\n" "${datetime_array[@]}" | sort -n)
+sorted_datetime_array=($(printf "%s\n" "${datetime_array[@]}" | sort -n))
 
-echo ${sorted_datetime_array[@]}
+for (( m_i=0; m_i < $num_lines; m_i++ ))
+do
+    get_line
+done
 
