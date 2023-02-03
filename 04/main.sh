@@ -1,22 +1,12 @@
 #!/bin/bash
 
 source line.sh
-source time.sh
 
-num_lines=10
-rand_day=$(get_day)
-datetime_array=()
+num_files=1
+num_lines=$(get_random 100 1000)
 
-for (( m_i=0; m_i < $num_lines; m_i++ ))
+for (( m_i=0; m_i < $num_files; m_i++ ))
 do
-    (( rand_time=$rand_day+$(get_random 1 86399) ))
-    datetime_array+=($rand_time)
-done
-
-sorted_datetime_array=($(printf "%s\n" "${datetime_array[@]}" | sort -n))
-
-for (( m_i=0; m_i < $num_lines; m_i++ ))
-do
-    get_line
+    make_log $num_lines
 done
 
