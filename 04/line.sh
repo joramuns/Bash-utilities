@@ -10,6 +10,6 @@ function get_line () {
     echo -n "\"$(get_method)\" "
     echo -n "$(get_response) "
     echo -n "$(get_random 1 5000) "
-    echo -n "\"url.com\" "
+    echo -n "\"$(get_url)\" "
     echo "\"$(get_agent)\""
 }
