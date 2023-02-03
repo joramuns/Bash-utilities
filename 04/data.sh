@@ -26,19 +26,19 @@ function get_ip () {
 # 503 Service unavailable
 function get_response () {
     local resp_result=(200 201 400 401 403 404 500 501 502 503)
-    local num_resp=${#resp_result[@]}
+    (( num_resp=${#resp_result[@]} - 1))
     echo ${resp_result[$(get_random 0 $num_resp)]}
 }
 
 function get_method () {
     local meth_result=(GET POST PUT PATCH DELETE)
-    local num_meth=${#meth_result[@]}
+    (( num_meth=${#meth_result[@]} - 1 ))
     echo ${meth_result[$(get_random 0 $num_meth)]}
 }
 
 function get_url () {
     local extensions=(ru com eu edu gov)
-    local num_extensions=${#extensions[@]}
+    (( num_extensions=${#extensions[@]} - 1 ))
     local rand_url=$(cat /dev/urandom | tr -dc '[:alpha:]' | fold -w ${3:-$(get_random 1 10)} | head -n 1)
     rand_url+=.${extensions[$(get_random 0 $num_extensions)]}
     echo $rand_url
@@ -46,6 +46,6 @@ function get_url () {
 
 function get_agent () {
     local ag_result=("Mozilla" "Google Chrome" "Opera" "Safari" "Internet Explorer" "Microsoft Edge" "Crawler and bot" "Library and net tool")
-    local num_ag=${#ag_result[@]}
+    (( num_ag=${#ag_result[@]} - 1 ))
     echo ${ag_result[$(get_random 0 $num_ag)]}
 }
