@@ -26,13 +26,19 @@
 #            }
 
 
-{a[$6]=$0} 
-END {
-    PROCINFO["sorted_in"] = "@ind_num_asc"; 
-    for(i in a) {
-        print a[i]
+# {a[$6]=$0} 
+# END {
+#     PROCINFO["sorted_in"] = "@ind_num_asc"; 
+#     for(i in a) {
+#         print a[i]
+#     }
+# }
+
+
+# awk '{if ($6 ~ "[45]..") {print $0}}'
+
+{
+    if ($6 == i_code) {
+        print
+        }
     }
-}
-
-
-awk '{if ($6 ~ "[45]..") {print $0}}'
