@@ -31,5 +31,5 @@ function get_hyphen_day () {
 }
 
 function clf_date () {
-    echo $(date -d @$1 +"%d/%b/%Y:%H:%M:%S")
+    echo $(date -d @$1 +"%d/%b/%Y:%H:%M:%S %z")
 }
