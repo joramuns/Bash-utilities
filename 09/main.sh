@@ -13,6 +13,5 @@ do
     echo "# HELP s21_ram_available RAM Available" >> $info_path
     echo "# TYPE s21_ram_available gauge" >> $info_path
     echo "s21_ram_available $free_ram" >> $info_path
-    echo "Data stored"
     sleep 3
 done
