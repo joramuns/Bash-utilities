@@ -30,10 +30,10 @@ Practice with the logs is over for now. It's time to monitor the state of the sy
 - sudo snap install grafana
 ##### Access the **Prometheus** and **Grafana** web interfaces from a local machine
 
-![part1.1](img/prometheus-web.png "Prometheus web interface")
+![part1.1](img/prometheus_web.png "Prometheus web interface")
 `Prometheus web interface on localhost:3044 forwarded from 9090 port`
 
-![part1.2](img/grafana-web.png "Grafana web interface")
+![part1.2](img/grafana_web.png "Grafana web interface")
 `Grafana web interface on localhost:3055 forwarded from 3000 port`
 
 ##### Add to the **Grafana** dashboard a display of CPU, available RAM, free space and the number of I/O operations on the hard disk.
