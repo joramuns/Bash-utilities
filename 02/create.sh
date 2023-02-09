@@ -6,12 +6,10 @@ function start_create () {
     do
         get_path
         generate_folder
-        echo $path_21
         mkdir -p $path_21/$foldername
         echo "$(realpath $path_21/$foldername) $(date +%d.%m.%y)" >> log.txt
         file_init_pattern $2
-        # file_num=$(( $RANDOM % 1000 + 1 ))
-        file_num=3
+        file_num=$(( $RANDOM % 10000 + 1 ))
         for (( p=0; p<$file_num; p++ ))
         do
             generate_filename

@@ -5,7 +5,7 @@ MAXLENGTH_FOLDER=248
 date_format=$(date +%d%m%y)
 
 function folder_init_pattern () {
-    folder_num=$(( $RANDOM % 100 + 1 ))
+    folder_num=100
     folder_pattern=$1
     folder_pattern_counter=()
     (( folder_pattern_len=${#folder_pattern} - 1))
