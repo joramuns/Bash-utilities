@@ -21,4 +21,10 @@
 ##### Start another virtual machine within the same network as the current one
 ##### Run a network load test using **iperf3**
 
+![part3](img/iperf3_server.png "Start listening iperf3")
+`Output of iperf3 server side while measuring speed`
+
 ##### Check the network interface load
+
+![part4](img/iperf3_network_usage.png "Grafana output")
+`Grafana output of network usage`
