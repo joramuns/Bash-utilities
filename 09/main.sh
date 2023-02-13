@@ -1,7 +1,7 @@
 while (true)
 do
     info_path="/var/www/html/metrics/data.html"
-    cpu_load=$(ps -eo pcpu | awk '{sum+=$1} END{print $sum}')
+    cpu_load=$(ps -eo pcpu | awk '{sum+=$1} END{print sum}')
     free_space=$(df -m / | tail -1 | awk '{print $4}')
     free_ram=$(free -m | awk '/Mem/ {print $4}')
     echo "# HELP s21_cpu_load CPU usage" > $info_path
