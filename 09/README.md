@@ -7,7 +7,7 @@
 - Add folder ```/metrics``` to nginx configuration file;
 - Add new job to prometheus linked to nginx web server.
 
-##### Run the same tests as in [Part 7](#part-7-prometheus-and-grafana)
+##### Run the same tests as in Part 7
 
 ![part1.1](img/ex02_test.png "Test part 2")
 `Test metrics with script from part 2`
