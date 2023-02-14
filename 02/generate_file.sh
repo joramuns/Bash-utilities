@@ -43,6 +43,7 @@ function get_count_file () {
         if [[ ${pattern_counter[$n]} -gt 254 || $check_arr_sum -gt $MAXLENGTH ]]; then
             if [[ $n -eq $pattern_len ]]; then
                 echo "No more filename combinations with this pattern"
+                end_log
                 exit 1
             fi
             antiplagiat=1
@@ -51,6 +52,7 @@ function get_count_file () {
                 (( antiplagiat+=1 ))
                 if [[ $n+$antiplagiat -gt $pattern_len ]]; then
                     echo "No more filename combinations due to repeating letters"
+                    end_log
                     exit 1
                 fi
             done

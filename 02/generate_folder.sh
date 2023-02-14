@@ -42,6 +42,7 @@ function get_count_folder () {
         if [[ ${folder_pattern_counter[$n]} -gt 254 || $folder_check_arr_sum -gt $MAXLENGTH_FOLDER ]]; then
             if [[ $n -eq $folder_pattern_len ]]; then
                 echo "No more folder combinations with this pattern"
+                end_log
                 exit 1
             fi
             antiplagiat=1
@@ -50,6 +51,7 @@ function get_count_folder () {
                 (( antiplagiat+=1 ))
                 if [[ $n+$antiplagiat -gt $folder_pattern_len ]]; then
                     echo "No more folder combinations due to repeating letters"
+                    end_log
                     exit 1
                 fi
             done

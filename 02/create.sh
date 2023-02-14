@@ -18,6 +18,7 @@ function start_create () {
             space_left=$(df -m / | tail -1 | awk '{print $4}')
             if (( space_left < 1024 )); then
                 echo "Less than 1GB of free space remaining!"
+                end_log
                 exit 99
             fi
         done
@@ -29,4 +30,11 @@ function get_path () {
     if ! [ -w $path_21 ]; then
         get_path
     fi
+}
+
+function end_log () {
+    timer_end=$(date +"%s.%N")
+    total_time=$(echo "$timer_end - $timer_start" | bc | awk '{printf "%.2f", $1}')
+    end_time=$(date +"%T")
+    echo "Start time: $start_time, End time: $end_time, Total running $total_time seconds" >> log.txt
 }
