@@ -1,7 +1,7 @@
 #!/usr/bin/awk -f
 
  {
-    codes[$6]++
+    codes[$7]++
     }
     END {
         for (code in codes) {
