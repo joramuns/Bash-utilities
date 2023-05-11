@@ -1,0 +1,17 @@
+#!/bin/bash
+
+timezone="$(cat /etc/timezone) $(date +%z | awk '{printf "UTC +%d", $1/100}')"
+os_version="$(cat /etc/issue | awk '{print $1 " " $2}')"
+time_now="$(date +"%d %b %Y %X")"
+uptime_full="$(awk '{m=$1/60; h=m/60; printf "%sd %sh %sm %ss", int(h/24), int(h%24), int(m%60), int($1%60) }' /proc/uptime)"
+uptime_seconds="$(awk '{print $1}' /proc/uptime)"
+ip_address="$(hostname -I | awk '{print $1}')"
+netmask="$(ifconfig | awk '/netmask/{print $4}' | awk 'NR<2')"
+gateway="$(ip r | awk '/default via/{print $3}')"
+ram_total="$(free -m | awk 'NR==2{printf "%.3f GB", $2/1024}')"
+ram_used="$(free -m | awk 'NR==2{printf "%.3f GB", $3/1024}')"
+ram_free="$(free -m | awk 'NR==2{printf "%.3f GB", $4/1024}')"
+root_info="$(df -Bk | grep "% /$")"
+root_total="$(echo $root_info | awk '{printf "%.2f MB", $2/1024}')"
+root_used="$(echo $root_info | awk '{printf "%.2f MB", $3/1024}')"
+root_free="$(echo $root_info | awk '{printf "%.2f MB", $4/1024}')"
